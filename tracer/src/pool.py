@@ -868,34 +868,28 @@ POOL = [
         "category"     : Category.ART
     },
     {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
+        "url"          : "https://www.plurk.com/{user}",
+        "domain"       : "plurk.com",
+        "err_pattern"  : r"<title.*?>User Not Found.*?</title>",
+        "category"     : Category.SOCIALMEDIA
     },
     {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
+        "url"          : "https://aminoapps.com/u/{user}",
+        "domain"       : "aminoapps.com",
+        "err_pattern"  : r"<title.*?>Amino</title>",
+        "category"     : Category.ART
     },
     {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
+        "url"          : "https://meta.getaether.net/u/{user}",
+        "domain"       : "getaether.net",
+        "err_pattern"  : r"<title.*?>Meta Aether</title>",
+        "category"     : Category.SOCIALMEDIA
     },
     {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
+        "url"          : "https://micro.blog/robertbrook",
+        "domain"       : "micro.blog",
+        "err_pattern"  : r"<body>User not found</body>",
+        "category"     : Category.BLOG
     },
     {
         "url"          : "",
