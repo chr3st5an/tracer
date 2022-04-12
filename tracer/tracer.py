@@ -25,7 +25,7 @@ from colorama import Fore
 from time import monotonic
 from collections import namedtuple
 
-from typing import Any, Optional, Union, AsyncGenerator, Callable, NamedTuple
+from typing import Any, Optional, Union, AsyncGenerator, Callable, NamedTuple, List, Dict
 from pathlib import Path
 
 try:
@@ -255,7 +255,7 @@ async def make_request(session: ClientSession, site: dict, queue: Queue, usernam
 
             # Starting the coroutine in a new thread since this coroutine
             # depends on time consuming regex
-            if await asyncio.to_thread(user_exist, r, await r.text(), site.get("err_pattern"), site.get("err_url")):
+            if user_exist(r, await r.text(), site.get("err_pattern"), site.get("err_url")):
                 await queue.put(Response(True,  delay, r.host))
             else:
                 await queue.put(Response(False, delay, r.host))
@@ -300,7 +300,7 @@ async def file_writer(username: str, out_dir: Union[str, Path]) -> AsyncGenerato
         await file.write(f"{LOGO}\nReport for {username}:\n\n")
 
         while True:
-            url: str = yield None
+            url = yield None
 
             await file.write(url + "\n")
 
@@ -342,7 +342,7 @@ async def loading_animation(msg: str, condition: Callable[..., bool], *args: Any
     print("\r" + " " * (len(msg) + 10), end="\r")
 
 
-def get_conf(file: Union[Path, str]) -> dict[str, str]:
+def get_conf(file: Union[Path, str]) -> Dict[str, str]:
     """Parses settings from a conf file and converts it into a dict
 
     Parameters
@@ -387,7 +387,7 @@ def get_conf(file: Union[Path, str]) -> dict[str, str]:
     return settings
 
 
-def get_args() -> dict[str, Any]:
+def get_args() -> Dict[str, Any]:
     """Parses provided options from the CLI
 
     Returns
@@ -482,7 +482,7 @@ def get_args() -> dict[str, Any]:
         help="retrieve and print your IP on program startup and then wait 3s before continuing",
     )
 
-    args: dict[str, Any] = {}
+    args: Dict[str, Any] = {}
 
     # Parses the args and filters options out that didn't were provided
     for key, value in dict(parser.parse_args()._get_kwargs()).items():
@@ -492,8 +492,8 @@ def get_args() -> dict[str, Any]:
     return args
 
 
-def filter_sites(sites: list[dict[str, Any]], domain_list: Optional[list[str]] = None, categories_list: Optional[list[int]] = None,
-                 *, action: str = "exclude") -> list[dict[str, Any]]:
+def filter_sites(sites: List[Dict[str, Any]], domain_list: Optional[List[str]] = None, categories_list: Optional[List[int]] = None,
+                 *, action: str = "exclude") -> List[Dict[str, Any]]:
     """Filters sites based on the parameters
 
     Parameters
@@ -573,9 +573,9 @@ def user_exist(response: aiohttp.ClientResponse, html: str, err_pattern: Optiona
 
     if not (response.status == 200):
         return False
-    elif (p := err_url) and re.search(p, str(response.url), flags=re.I):
+    elif err_url and re.search(err_url, str(response.url), flags=re.I):
         return False
-    elif (p := err_pattern) and re.search(p, html, flags=re.S + re.I + re.M):
+    elif err_pattern and re.search(err_pattern, html, flags=re.S + re.I + re.M):
         return False
 
     return True
