@@ -886,177 +886,22 @@ POOL = [
         "category"     : Category.SOCIALMEDIA
     },
     {
-        "url"          : "https://micro.blog/robertbrook",
+        "url"          : "https://micro.blog/{user}",
         "domain"       : "micro.blog",
         "err_pattern"  : r"<body>User not found</body>",
         "category"     : Category.BLOG
     },
     {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
+        "url"          : "https://{user}.start.page/",
+        "domain"       : "start.page",
+        "err_pattern"  : r"<title.*?>Page not found!</title>",
+        "err_dot"      : True,
+        "category"     : Category.OTHER
     },
     {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
-    },
-    {
-        "url"          : "",
-        "domain"       : "",
-        "err_pattern"  : r"",
-        "category"     : Category
+        "url"          : "https://codepen.io/{user}",
+        "domain"       : "codepen.io",
+        "err_pattern"  : r"<title.*?>404 on.*?</title>",
+        "category"     : Category.PROGRAMMING
     }
 ]
