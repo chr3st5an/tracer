@@ -50,6 +50,8 @@ def main() -> None:
     loop.
     """
 
+    os.chdir(os.path.dirname(os.path.realpath(__file__)))
+
     # Gets the configs from the conf file and
     # updates these with the provided CLI options
     kwargs = get_conf(CONFIG)
