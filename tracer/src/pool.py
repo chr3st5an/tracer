@@ -48,6 +48,8 @@ err_dot:     Boolean that indicates if the site responses with a false
 err_url:     A regex that gets applied on the URL of the response.
              If it matches, the overall result is considered false.
              (OPTIONAL) Flags enabled: IGNORECASE
+ignore_code: Boolean that indicates if the response status code should be
+             ignored and not used to evaluate the response. (OPTIONAL)
 category:    A category that fits to the website.
 """
 POOL = [
@@ -903,5 +905,54 @@ POOL = [
         "domain"       : "codepen.io",
         "err_pattern"  : r"<title.*?>404 on.*?</title>",
         "category"     : Category.PROGRAMMING
+    },
+    {
+        "url"          : "https://br.bebee.com/bee/{user}",
+        "domain"       : "bebee.com",
+        "err_pattern"  : r"class=\"text-danger bb-expired\"",
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://steemit.com/@{user}",
+        "domain"       : "steemit.com",
+        "err_pattern"  : r"<title.*?>Page Not Found.*?</title>",
+        "category"     : Category.SOCIALMEDIA
+    },
+    {
+        "url"          : "https://8tracks.com/{user}",
+        "domain"       : "8tracks.com",
+        "err_pattern"  : r"<title.*?>8tracks radio</title>",
+        "category"     : Category.MUSIC
+    },
+    {
+        "url"          : "https://www.fark.com/users/{user}",
+        "domain"       : "fark.com",
+        "err_pattern"  : r"<title>FARK\.com: User profiles: view</title>",
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://www.caringbridge.org/visit/{user}",
+        "domain"       : "caringbridge.org",
+        "err_pattern"  : r"<title>CaringBridge</title>",
+        "ignore_code"  : True,
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://pypi.org/user/{user}/",
+        "domain"       : "pypi.org",
+        "err_pattern"  : r"<title.*?>Page Not Found.*?</title>",
+        "category"     : Category.PROGRAMMING
+    },
+    {
+        "url"          : "https://www.npmjs.com/~{user}",
+        "domain"       : "npmjs.com",
+        "err_pattern"  : r"<h1.*?>not found</h1>",
+        "category"     : Category.PROGRAMMING
+    },
+    {
+        "url"          : "https://beacons.ai/{user}",
+        "domain"       : "beacons.ai",
+        "err_pattern"  : r"<title.*?>Beacons</title>",
+        "category"     : Category.OTHER
     }
 ]

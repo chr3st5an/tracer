@@ -236,6 +236,7 @@ async def make_request(session: ClientSession, site: dict, queue: Queue, usernam
     timeout : Optional[Union[int, float]], optional
         Sets a timeout for the request, by default None
     """
+
     # Checks if the username contains a dot, and if the
     # site would respond with a false result if the
     # username contains a dot.
@@ -257,7 +258,7 @@ async def make_request(session: ClientSession, site: dict, queue: Queue, usernam
 
             # Starting the coroutine in a new thread since this coroutine
             # depends on time consuming regex
-            if user_exist(r, await r.text(), site.get("err_pattern"), site.get("err_url")):
+            if user_exist(r, await r.text(), site.get("err_pattern"), site.get("err_url"), site.get('ignore_code')):
                 await queue.put(Response(True,  delay, r.host))
             else:
                 await queue.put(Response(False, delay, r.host))
@@ -548,7 +549,7 @@ def filter_sites(sites: List[Dict[str, Any]], domain_list: Optional[List[str]] =
     return filtered
 
 
-def user_exist(response: aiohttp.ClientResponse, html: str, err_pattern: Optional[str] = None, err_url: Optional[str] = None) -> bool:
+def user_exist(response: aiohttp.ClientResponse, html: str, err_pattern: Optional[str] = None, err_url: Optional[str] = None, ignore_code: bool = False) -> bool:
     """Checks based on the returned response if the username is in use.
 
     First checks if the response status is 200 and then
@@ -566,6 +567,10 @@ def user_exist(response: aiohttp.ClientResponse, html: str, err_pattern: Optiona
     err_url : str, optional
         A regex pattern which gets applied on the
         `response.url`. If it matches, `False` is returned.
+    ignore_code : bool, optional
+        A boolean that indicates if the status code of
+        the response should be ignored while evaluating
+        the response.
 
     Returns
     -------
@@ -573,7 +578,7 @@ def user_exist(response: aiohttp.ClientResponse, html: str, err_pattern: Optiona
         Indicator if the username exists
     """
 
-    if not (response.status == 200):
+    if not (response.status == 200 or ignore_code):
         return False
     elif err_url and re.search(err_url, str(response.url), flags=re.I):
         return False
