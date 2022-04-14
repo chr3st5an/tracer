@@ -16,7 +16,8 @@ class Category(object):
     OFFICE      = 12
     NEWS        = 13
     GAMES       = 14
-    OTHER       = 15
+    LINKS       = 15
+    OTHER       = 16
 
     @classmethod
     def resolve(cls, category: str) -> int:
@@ -95,7 +96,7 @@ POOL = [
         "url"          : "https://linktr.ee/{user}",
         "domain"       : "linktr.ee",
         "err_pattern"  : r"<title.*?>Linktree.*?</title>",
-        "category"     : Category.OTHER
+        "category"     : Category.LINKS
     },
     {
         "url"          : "https://tiktok.com/@{user}",
@@ -132,7 +133,7 @@ POOL = [
         "url"          : "https://instabio.cc/{user}",
         "domain"       : "instabio.cc",
         "err_pattern"  : r"<img.*?alt=\"404\">",
-        "category"     : Category.OTHER
+        "category"     : Category.LINKS
     },
     {
         "url"          : "https://youtube.com/c/{user}",
@@ -222,13 +223,13 @@ POOL = [
         "url"          : "https://lnk.bio/{user}",
         "domain"       : "lnk.bio",
         "err_pattern"  : r"<title.*?>Not Found.*?</title>",
-        "category"     : Category.OTHER
+        "category"     : Category.LINKS
     },
     {
         "url"          : "https://campsite.bio/{user}",
         "domain"       : "campsite.bio",
         "err_pattern"  : r"<title.*?>Campsite</title>",
-        "category"     : Category.OTHER
+        "category"     : Category.LINKS
     },
     {
         "url"          : "https://xhamster.com/users/{user}",
@@ -953,6 +954,76 @@ POOL = [
         "url"          : "https://beacons.ai/{user}",
         "domain"       : "beacons.ai",
         "err_pattern"  : r"<title.*?>Beacons</title>",
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://{user}.webflow.io/",
+        "domain"       : "webflow.com",
+        "err_pattern"  : r"<title.*?>404 -.*?</title>",
+        "err_dot"      : True,
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://www.liinks.co/{user}",
+        "domain"       : "liinks.co",
+        "err_pattern"  : r"<title.*?>Liinks.*?</title>",
+        "err_url"      : r"type=NO_USER",
+        "category"     : Category.LINKS
+    },
+    {
+        "url"          : "https://{user}.substack.com/",
+        "domain"       : "substack.com",
+        "err_pattern"  : r"<title.*?>Discover Substack.*?</title>",
+        "err_url"      : r"\.\w+?\/discover",
+        "err_dot"      : True,
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://hypel.ink/{user}",
+        "domain"       : "hypel.ink",
+        "err_pattern"  : r"<title.*?>Hype Link</title>",
+        "category"     : Category.LINKS
+    },
+    {
+        "url"          : "https://linkr.bio/{user}",
+        "domain"       : "linkr.bio",
+        "err_pattern"  : r"<title.*?>Linkr.*?</title>",
+        "category"     : Category.LINKS
+    },
+    {
+        "url"          : "https://fanlink.to/{user}",
+        "domain"       : "fanlink.to",
+        "err_pattern"  : r"<title.*?>ToneDen -.*?</title>",
+        "category"     : Category.LINKS
+    },
+    {
+        "url"          : "https://linkfly.to/{user}",
+        "domain"       : "linkfly.to",
+        "err_pattern"  : r"<title.*?>404 - Oops.*?</title>",
+        "category"     : Category.LINKS
+    },
+    {
+        "url"          : "https://community.octoprint.org/u/{user}",
+        "domain"       : "octoprint.org",
+        "err_pattern"  : r"<title.*?>OctoPrint.*?</title>",
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://community.airtable.com/u/{user}",
+        "domain"       : "airtable.com",
+        "err_pattern"  : r"<title.*?>Airtable Community.*?</title>",
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://community.k6.io/u/{user}",
+        "domain"       : "k6.io",
+        "err_pattern"  : r"<title.*?>k6 community.*?</title>",
+        "category"     : Category.OTHER
+    },
+    {
+        "url"          : "https://community.w2g.tv/u/{user}",
+        "domain"       : "w2g.tv",
+        "err_pattern"  : r"<title.*?>Watch2Gether.*?</title>",
         "category"     : Category.OTHER
     }
 ]
