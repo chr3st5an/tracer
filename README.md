@@ -5,10 +5,10 @@
 </div>
 
 [![Maintainer](https://img.shields.io/badge/Maintainer-chr3st5an-cyan.svg)](https://github.com/chr3st5an)
-[![Python](https://img.shields.io/badge/Python->=3.7-yellow.svg)](https://www.python.org/downloads/release/python-3712/)
+[![Python](https://img.shields.io/badge/Python-3.7--3.9-yellow.svg)](https://www.python.org/downloads/release/python-3712/)
 [![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 ![Open Source](https://badgen.net/badge/Open%20Source/Yes/blue?icon=github)
-![Version](https://img.shields.io/badge/Version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/Version-1.0.1-blue.svg)
 
 Tracer is an OSINT tool that can be used to detect on which websites a username is currently in use.
 
