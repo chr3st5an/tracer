@@ -694,6 +694,12 @@
         "category": 1
     },
     {
+        "url": "https://www.redgifs.com/users/{}",
+        "domain": "redgifs.com",
+        "err_text_pattern": "<h2.*?text-centered.*?>Page Not Found</h2>",
+        "category": 2
+    },
+    {
         "url": "https://redtube.com/users/{}",
         "domain": "redtube.com",
         "err_text_pattern": "<title.*?>Page Not Found</title>",
