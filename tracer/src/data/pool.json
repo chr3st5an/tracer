@@ -38,6 +38,12 @@
         "category": 4
     },
     {
+        "url": "https://www.answers.com/u/{}",
+        "domain": "answers.com",
+        "err_text_pattern": "<title.*?>404 Not Found.*?</title>",
+        "category": 9
+    },
+    {
         "url": "https://archive.org/details/@{}",
         "domain": "archive.org",
         "err_text_pattern": "<title.*?>cannot find.*?</title>",
@@ -280,6 +286,12 @@
         "category": 13
     },
     {
+        "url": "https://forum.freecodecamp.org/u/{}",
+        "domain": "freecodecamp.org",
+        "err_text_pattern": "<title.*?>The freeCodeCamp.*?</title>",
+        "category": 5
+    },
+    {
         "url": "https://www.gaiaonline.com/profiles/{}/",
         "domain": "gaiaonline.com",
         "err_text_pattern": "<title.*?Error.*?</title>",
@@ -349,6 +361,12 @@
         "url": "https://www.gutefrage.net/nutzer/{}",
         "domain": "gutefrage.net",
         "err_text_pattern": "<title.*?>Gutefrage.*?</title>",
+        "category": 16
+    },
+    {
+        "url": "https://gfycat.com/@{}",
+        "domain": "gfycat.com",
+        "err_text_pattern": "<title.*?>Page not found.*?</title>",
         "category": 16
     },
     {
@@ -607,6 +625,13 @@
         "category": 4
     },
     {
+        "url": "https://pixabay.com/users/{}/",
+        "domain": "pixabay.com",
+        "err_text_pattern": "<title.*?>Error 404</title>",
+        "err_on_dot": true,
+        "category": 16
+    },
+    {
         "url": "https://www.plurk.com/{}",
         "domain": "plurk.com",
         "err_text_pattern": "<title.*?>User Not Found.*?</title>",
@@ -811,6 +836,13 @@
         "category": 7
     },
     {
+        "url": "https://textbin.net/u/{}",
+        "domain": "textbin.net",
+        "err_text_pattern": "<title.*?>TextBin</title>",
+        "err_on_dot": true,
+        "category": 5
+    },
+    {
         "url": "https://tiktok.com/@{}",
         "domain": "tiktok.com",
         "err_text_pattern": "<title>Couldn't find this account.*?</title>",
@@ -857,6 +889,12 @@
         "url": "https://valence.community/visualization/profile/{}",
         "domain": "valence.community",
         "err_text_pattern": "<title.*?valence</title>",
+        "category": 16
+    },
+    {
+        "url": "https://www.vice.com/en/contributor/{}",
+        "domain": "vice.com",
+        "err_text_pattern": "<title.*?>vice\\.com.*?</title>",
         "category": 16
     },
     {
