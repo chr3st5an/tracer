@@ -107,7 +107,7 @@ class Tracer(object):
         """
 
         if self.kwargs.get("print_logo", True):
-            print(f"{Fore.CYAN}{LOGO}{Fore.RESET}\n")
+            print(f"\n{Fore.CYAN}{LOGO}{Fore.RESET}\n")
 
         async with ClientSession(headers=self.headers, cookie_jar=aiohttp.DummyCookieJar()) as session:
             if self.kwargs.get("ip_check"):
