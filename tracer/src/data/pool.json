@@ -146,7 +146,7 @@
         "url": "https://www.chess.com/member/{}",
         "domain": "chess.com",
         "err_text_pattern": "<title.*?Missing Page</title>",
-        "category": 16
+        "category": 14
     },
     {
         "url": "https://codepen.io/{}",
@@ -472,7 +472,7 @@
         "url": "https://lichess.org/@/{}",
         "domain": "lichess.org",
         "err_text_pattern": "<title.*?Page Not Found.*?</title>",
-        "category": 16
+        "category": 14
     },
     {
         "url": "https://www.liinks.co/{}",
@@ -591,6 +591,12 @@
         "url": "https://odysee.com/@{}",
         "domain": "odysee.com",
         "err_text_pattern": "<title.*?>Odysee</title>",
+        "category": 6
+    },
+    {
+        "url": "https://omlet.gg/profile/{}",
+        "domain": "omlet.gg",
+        "err_text_pattern": "<title>Omlet Arcade</title>",
         "category": 6
     },
     {
@@ -792,7 +798,7 @@
         "url": "https://steamcommunity.com/id/{}",
         "domain": "steamcommunity.com",
         "err_text_pattern": "<title.*?>.*?::\\s*?Error.*?</title>",
-        "category": 16
+        "category": 14
     },
     {
         "url": "https://steemit.com/@{}",
