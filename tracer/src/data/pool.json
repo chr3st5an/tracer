@@ -139,7 +139,7 @@
         "url": "https://chaturbate.com/{}/",
         "domain": "chaturbate.com",
         "err_text_pattern": "<h1>HTTP 404.*?</h1>",
-        "err_url_pattern": "(?:chaturbate\\.com\\/?)$",
+        "err_url_pattern": "(?:chaturbate\\.[a-z]+?\\/?)$",
         "category": 2
     },
     {
@@ -149,9 +149,21 @@
         "category": 14
     },
     {
+        "url": "https://www.codechef.com/users/{}",
+        "domain": "codechef.com",
+        "err_url_pattern": "(?:codechef\\.[a-zA-Z]+?\\/?)$",
+        "category": 5
+    },
+    {
         "url": "https://codepen.io/{}",
         "domain": "codepen.io",
         "err_text_pattern": "<title.*?>404 on.*?</title>",
+        "category": 5
+    },
+    {
+        "url": "https://codeforces.com/profile/{}",
+        "domain": "codeforces.com",
+        "err_url_pattern": "(?:codeforces\\.[a-z]+?\\/?)$",
         "category": 5
     },
     {
@@ -270,7 +282,7 @@
         "url": "https://www.fiverr.com/{}",
         "domain": "fiverr.com",
         "err_text_pattern": "<title.*?>Fiverr -.*?</title>",
-        "err_url_pattern": "(?:fiverr\\.com\\/?)$",
+        "err_url_pattern": "(?:fiverr\\.[a-z]+?\\/?)$",
         "category": 16
     },
     {
@@ -317,6 +329,12 @@
         "err_text_pattern": "(?:<title.*?>404 Not Found</title>)|(?:<h1.*?Explore.*?</h1>)",
         "err_url_pattern": ".*?\\/explore\\/.*?",
         "category": 11
+    },
+    {
+        "url": "https://gitea.com/{}",
+        "domain": "gitea.com",
+        "err_text_pattern": "</title.*?>Page Not Found.*?</title>",
+        "category": 5
     },
     {
         "url": "https://gitee.com/{}",
@@ -378,6 +396,13 @@
         "category": 5
     },
     {
+        "url": "https://{}.hashnode.dev",
+        "domain": "hashnode.com",
+        "err_text_pattern": "<p.*?css-4mei6l.*?>404</p>",
+        "err_on_dot": true,
+        "category": 5
+    },
+    {
         "url": "https://hubpages.com/@{}",
         "domain": "hubpages.com",
         "err_text_pattern": "<title.*?>Page Not Found</title>",
@@ -406,7 +431,7 @@
     {
         "url": "https://imageshack.com/user/{}",
         "domain": "imageshack.com",
-        "err_url_pattern": "imageshack\\.(?:\\w+?\\/?)$",
+        "err_url_pattern": "imageshack\\.(?:[a-z]+?\\/?)$",
         "category": 1
     },
     {
@@ -457,6 +482,13 @@
         "category": 16
     },
     {
+        "url": "https://www.kaggle.com/{}",
+        "domain": "kaggle.com",
+        "err_text_pattern": "<title.*?>Kaggle: Your Home for Data Science</title>",
+        "err_on_dot": true,
+        "category": 5
+    },
+    {
         "url": "https://last.fm/user/{}",
         "domain": "last.fm",
         "err_text_pattern": "<title.*?>Page\\sNot\\sFound.*?</title>",
@@ -490,7 +522,7 @@
     {
         "url": "https://linkedin.com/in/{}",
         "domain": "linkedin.com",
-        "err_url_pattern": "com\\/authwall\\?.*?",
+        "err_url_pattern": "\\.[a-z]+?\\/authwall\\?.*?",
         "category": 16
     },
     {
@@ -540,7 +572,7 @@
     {
         "url": "https://meetme.com/{}",
         "domain": "meetme.com",
-        "err_url_pattern": "meetme\\.(?:\\w+?\\/?)$",
+        "err_url_pattern": "meetme\\.(?:\\[a-z]+?\\/?)$",
         "category": 16
     },
     {
@@ -659,6 +691,12 @@
         "url": "https://www.producthunt.com/@{}",
         "domain": "producthunt.com",
         "err_text_pattern": "<title.*?>Product Hunt:.*?</title>",
+        "category": 16
+    },
+    {
+        "url": "https://www.polywork.com/{}",
+        "domain": "polywork.com",
+        "err_text_pattern": "<title.*?>The page you were looking.*?</title>",
         "category": 16
     },
     {
@@ -817,7 +855,7 @@
         "url": "https://{}.substack.com/",
         "domain": "substack.com",
         "err_text_pattern": "<title.*?>Discover Substack.*?</title>",
-        "err_url_pattern": "\\.\\w+?\\/discover",
+        "err_url_pattern": "\\.\\[a-z]+?\\/discover",
         "err_on_dot": true,
         "category": 16
     },
@@ -830,7 +868,7 @@
     {
         "url": "https://www.taskrabbit.com/profile/{}",
         "domain": "taskrabbit.com",
-        "err_url_pattern": "taskrabbit\\.(\\w+?\\/?)$",
+        "err_url_pattern": "taskrabbit\\.(\\[a-z]+?\\/?)$",
         "err_on_dot": true,
         "category": 16
     },
@@ -934,6 +972,12 @@
         "category": 16
     },
     {
+        "url": "https://wakatime.com/@{}",
+        "domain": "wakatime.com",
+        "err_text_pattern": "<title.*?>404: Not Found - WakaTime</title>",
+        "category": 5
+    },
+    {
         "url": "https://wattpad.com/user/{}",
         "domain": "wattpad.com",
         "err_text_pattern": "<title.*?>Wattpad -.*?</title>",
@@ -1006,7 +1050,7 @@
     {
         "url": "https://{}.yelp.com/",
         "domain": "yelp.com",
-        "err_url_pattern": "yelp\\.\\w+?/(?:[^/?=]*?)$",
+        "err_url_pattern": "yelp\\.\\[a-z]+?/(?:[^/?=]*?)$",
         "err_on_dot": true,
         "category": 16
     },
