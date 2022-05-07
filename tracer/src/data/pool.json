@@ -164,6 +164,7 @@
         "url": "https://codeforces.com/profile/{}",
         "domain": "codeforces.com",
         "err_url_pattern": "(?:codeforces\\.[a-z]+?\\/?)$",
+        "err_on_dot": true,
         "category": 5
     },
     {
@@ -573,6 +574,7 @@
         "url": "https://meetme.com/{}",
         "domain": "meetme.com",
         "err_url_pattern": "meetme\\.(?:\\[a-z]+?\\/?)$",
+        "err_on_dot": true,
         "category": 16
     },
     {
@@ -895,7 +897,7 @@
     {
         "url": "https://tiktok.com/@{}",
         "domain": "tiktok.com",
-        "err_text_pattern": "<title>Couldn't find this account.*?</title>",
+        "err_text_pattern": "<title.*?>Couldn't find this account.*?</title>",
         "category": 1
     },
     {
