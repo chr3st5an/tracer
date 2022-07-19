@@ -22,9 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from .category import Category
-from .result import Result
-from .website import Website
-from .websitepool import WebsitePool
 from .textanimation import AsyncTextAnimation
+from .websitepool import WebsitePool
 from .parser import TracerParser
+from .category import Category
+from .website import Website
+from .result import Result
