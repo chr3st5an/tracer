@@ -38,6 +38,8 @@ class TracerParser(object):
     chr3st5an
     """
 
+    __slots__ = ("config_file", )
+
     def __init__(self, config_file: Union[Path, str]):
         """Creates a parser
 
