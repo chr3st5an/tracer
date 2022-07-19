@@ -1,5 +1,4 @@
-from typing import Optional, Dict, Any
-from copy import deepcopy
+from typing import Optional
 
 from colorama import Fore
 
@@ -53,15 +52,16 @@ class Result(object):
         Returns the str representation of the result
     `bool(obj)`
         Alias for `obj.successfully`
-    `copy.copy(obj)`
-        Returns a copy of the result
-    `copy.deepcopy(obj)`
-        Returns a deepcopy of the result
 
     Author
     ------
     chr3st5an
     """
+
+    __slots__ = (
+        "__website", "__status_code", "__successfully", "__delay",
+        "__host", "__url", "__timeout", "__error"
+    )
 
     def __init__(self,
         website,
@@ -112,22 +112,6 @@ class Result(object):
 
     def __bool__(self) -> bool:
         return self.__successfully
-
-    def __copy__(self):
-        result = self.__class__.__new__(self.__class__)
-        result.__dict__.update(self.__dict__)
-
-        return result
-
-    def __deepcopy__(self, memo: Dict[int, Any]):
-        result = self.__class__.__new__(self.__class__)
-
-        memo[id(self)] = result
-
-        for k, v in self.__dict__.items():
-            setattr(result, k, deepcopy(v, memo))
-
-        return result
 
     @property
     def website(self):
