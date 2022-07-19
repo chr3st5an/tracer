@@ -10,6 +10,7 @@ This script requires aiohttp, requests, aiofiles & colorama to be installed.
 """
 
 from typing import Dict, List, Optional, Union
+from threading import Thread
 from time import monotonic
 from pathlib import Path
 import http.cookies
@@ -35,6 +36,13 @@ MY_IP  = "https://api.myip.com"
 
 
 class Tracer(object):
+    """Implements the main logic behind Tracer
+
+    Author
+    ------
+    chr3st5an
+    """
+
     @classmethod
     def main(cls) -> None:
         """Creates a tracer instance and calls its run coro
@@ -71,12 +79,13 @@ class Tracer(object):
         self.pool     = WebsitePool(*map(Website.from_dict, data), name="TracerPool")
         self.verbose  = kwargs.get("verbose", False)
 
+        self.pool.set_username(self.username)
+
         self._out_dir = None
+        self.__filter_sites()
 
         if kwargs.get("create_file_output"):
             self._create_output_dir()
-
-        self.__filter_sites()
 
         #> When sending a request to TikTok, an annoying message
         #> is printed by aiohttp. This turns the message off.
@@ -113,15 +122,11 @@ class Tracer(object):
             if self.kwargs.get("ip_check"):
                 await self.retrieve_ip(session, timeout=self.kwargs.get("ip_timeout"))
 
-            self.pool.set_username(self.username)
-
             print(f"[{Fore.CYAN}*{Fore.RESET}] Checking {Fore.CYAN}{self.username}{Fore.RESET} on {len(self.pool)} sites:\n")
 
-            start = monotonic()
-
+            start    = monotonic()
+            counter  = 0
             requests = self.pool.start_requests(session, self.kwargs.get("timeout"))
-
-            counter = 0
 
             async for response in requests:
                 message = f"{response.url} {response.verbose() if self.kwargs.get('verbose') else ''}"
@@ -138,7 +143,7 @@ class Tracer(object):
                 print(f"{Fore.GREEN}[+]{Fore.RESET} {message}")
 
                 if self.kwargs.get("browse"):
-                    webbrowser.open(response.url)
+                    Thread(target=webbrowser.open, args=(response.url, )).start()
 
                 counter += 1
 
