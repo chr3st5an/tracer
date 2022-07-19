@@ -310,5 +310,5 @@ class WebsitePool(object):
             try:
                 yield await asyncio.wait_for(results.get(), timeout=0.25)
             except Exception:
-                """Forces the recheck of the loop condition
+                """Forces recheck of the loop condition
                 """
