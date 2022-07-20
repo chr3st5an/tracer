@@ -111,6 +111,13 @@
         "category": 16
     },
     {
+        "url": "https://api.caffeine.tv/v1/users/{}",
+        "display_url": "https://www.caffeine.tv/{}/profile/",
+        "domain": "caffeine.tv",
+        "err_text_pattern": "\"_account\":[\"Could not be found.\"]",
+        "category": 6
+    },
+    {
         "url": "https://campsite.bio/{}",
         "domain": "campsite.bio",
         "err_text_pattern": "<title.*?>Campsite</title>",
@@ -521,6 +528,12 @@
         "category": 9
     },
     {
+        "url": "https://letterboxd.com/{}/",
+        "domain": "letterboxd.com",
+        "err_text_pattern": "<title.*?>Letterboxd.*?</title>",
+        "category": 6
+    },
+    {
         "url": "https://letterpile.com/@{}",
         "domain": "letterpile.com",
         "err_text_pattern": "<title.*?>LetterPile</title>",
@@ -725,6 +738,7 @@
         "url": "https://www.polywork.com/{}",
         "domain": "polywork.com",
         "err_text_pattern": "<title.*?>The page you were looking.*?</title>",
+        "err_on_dot": true,
         "category": 16
     },
     {
