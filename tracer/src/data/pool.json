@@ -828,6 +828,12 @@
         "category": 1
     },
     {
+        "url": "https://open.spotify.com/user/{}",
+        "domain": "spotify.com",
+        "err_text_pattern": "<title.*?>Page not found</title>",
+        "category": 9
+    },
+    {
         "url": "https://{}.start.page/",
         "domain": "start.page",
         "err_text_pattern": "<title.*?>Page not found!</title>",
