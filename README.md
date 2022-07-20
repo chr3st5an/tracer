@@ -1,6 +1,6 @@
 <div align="center">
 
-[![Logo](https://i.imgur.com/4z6lqaH.png)](https://github.com/chr3st5an/tracer)
+[![Logo](https://i.imgur.com/HV5KtwO.png)](https://github.com/chr3st5an/tracer)
 
 </div>
 
@@ -12,7 +12,7 @@
 
 Tracer is an OSINT tool that can be used to detect on which websites a username is currently in use.
 
-[![Stalker - Preview](https://i.imgur.com/QTtt9oZ.jpg)](https://github.com/chr3st5an/tracer)
+[![Tracer - Preview](https://i.imgur.com/QTtt9oZ.jpg)](https://github.com/chr3st5an/tracer)
 
 ---
 
