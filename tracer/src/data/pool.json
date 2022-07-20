@@ -187,6 +187,12 @@
         "category": 4
     },
     {
+        "url": "https://crokes.com/{}/",
+        "domain": "crokes.com",
+        "err_text_pattern": "<title.*?>Page Not Found.*?</title>",
+        "category": 1
+    },
+    {
         "url": "https://www.crunchyroll.com/user/{}",
         "domain": "crunchyroll.com",
         "err_text_pattern": "<title>Crunchyroll - Page not found</title>",
@@ -299,6 +305,13 @@
         "category": 13
     },
     {
+        "url": "https://members.fotki.com/{}/about/",
+        "domain": "fotki.com",
+        "err_text_pattern": "<title.*?>Member Not Found.*?</title>",
+        "err_on_dot": true,
+        "category": 1
+    },
+    {
         "url": "https://forum.freecodecamp.org/u/{}",
         "domain": "freecodecamp.org",
         "err_text_pattern": "<title.*?>The freeCodeCamp.*?</title>",
@@ -354,6 +367,12 @@
         "domain": "gitlab.com",
         "err_text_pattern": "<title.*?>Sign in.*?</title>",
         "category": 5
+    },
+    {
+        "url": "https://www.girlsaskguys.com/user/{}",
+        "domain": "girlsaskguys.com",
+        "err_text_pattern": "<title.*?>This doesn.*?</title>",
+        "category": 1
     },
     {
         "url": "https://www.goodreads.com/{}",
@@ -488,6 +507,12 @@
         "err_text_pattern": "<title.*?>Kaggle: Your Home for Data Science</title>",
         "err_on_dot": true,
         "category": 5
+    },
+    {
+        "url": "https://ws2.kik.com/user/{}",
+        "domain": "kik.com",
+        "err_text_pattern": "<title.*?>Not Found</title>",
+        "category": 7
     },
     {
         "url": "https://last.fm/user/{}",
