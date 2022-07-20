@@ -1052,7 +1052,7 @@
     {
         "url": "https://{}.yelp.com/",
         "domain": "yelp.com",
-        "err_url_pattern": "yelp\\.\\[a-z]+?/(?:[^/?=]+?)$",
+        "err_url_pattern": "yelp\\.[a-z]+?/[^/?=]+$",
         "err_on_dot": true,
         "category": 16
     },
