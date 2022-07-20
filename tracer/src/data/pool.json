@@ -1054,6 +1054,7 @@
         "domain": "yelp.com",
         "err_url_pattern": "yelp\\.[a-z]+?/[^/?=]+$",
         "err_on_dot": true,
+        "err_text_pattern": "<title.*?>Restaurants, Dentists, Bars,.*?</title>",
         "category": 16
     },
     {
