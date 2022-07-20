@@ -473,7 +473,7 @@
         "url": "https://instagram.com/{}/guides",
         "display_url": "https://instagram.com/{}",
         "domain": "instagram.com",
-        "err_text_pattern": "<title.*?>Page Not Found \u2022 Instagram</title>",
+        "err_text_pattern": "<title.*?>Instagram</title>",
         "category": 1
     },
     {
@@ -598,7 +598,7 @@
     {
         "url": "https://meetme.com/{}",
         "domain": "meetme.com",
-        "err_url_pattern": "meetme\\.(?:\\[a-z]+?\\/?)$",
+        "err_text_pattern": "<title.*?>MeetMe.*?</title>",
         "err_on_dot": true,
         "category": 16
     },
@@ -617,7 +617,7 @@
     {
         "url": "https://mix.com/{}",
         "domain": "mix.com",
-        "err_text_pattern": "<title>Mix</title>",
+        "err_text_pattern": "<title.*?>Mix.*?</title>",
         "err_on_dot": true,
         "category": 1
     },
@@ -686,7 +686,8 @@
     {
         "url": "https://pinterest.com/{}",
         "domain": "pinterest.com",
-        "err_text_pattern": "<title.*?>Pinterest.*?</title>",
+        "err_url_pattern": "(?:\/ideas\/)$",
+        "err_text_pattern": "<title.*?></title>",
         "category": 4
     },
     {
@@ -934,7 +935,7 @@
     {
         "url": "https://tinder.com/@{}",
         "domain": "tinder.com",
-        "err_text_pattern": "<title.*?>Tinder \\| Dating, Make.*?</title>",
+        "err_text_pattern": "<title.*?>(?:Tinder.*?)?</title>",
         "category": 8
     },
     {
