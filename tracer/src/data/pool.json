@@ -900,13 +900,6 @@
         "category": 1
     },
     {
-        "url": "https://www.taskrabbit.com/profile/{}",
-        "domain": "taskrabbit.com",
-        "err_url_pattern": "taskrabbit\\.(?:com)$",
-        "err_on_dot": true,
-        "category": 16
-    },
-    {
         "url": "https://t.me/{}",
         "domain": "telegram.com",
         "err_text_pattern": "<i class=\\\"tgme_icon_user\\\"></i>",
