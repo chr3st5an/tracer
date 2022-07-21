@@ -143,7 +143,7 @@ class WebsitePool(object):
             name is not type 'str'
         """
 
-        if not isinstance(name, (str, None)):
+        if not isinstance(name, str):
             raise TypeError(f"Expected type 'str' instead of type '{type(name).__qualname__}'")
 
         self.__name = name
@@ -162,7 +162,7 @@ class WebsitePool(object):
             username is not type 'str'
         """
 
-        if not isinstance(username, (str, None)):
+        if not isinstance(username, str):
             raise TypeError(f"Expected type 'str' instead of type '{type(username).__qualname__}'")
 
         for site in self.sites:
