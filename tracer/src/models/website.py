@@ -249,9 +249,6 @@ class Website(object):
             username is not a string
         """
 
-        if not isinstance(username, str):
-            raise TypeError(f"Expected type 'str' instead of type '{type(username).__qualname__}'")
-
         self.__username = username
 
     def set_result(self, result: Optional[Result]) -> None:
@@ -267,9 +264,6 @@ class Website(object):
         TypeError
             result is not an instance of tracer.Result
         """
-
-        if not isinstance(result, Result):
-            raise TypeError(f"Expected type 'tracer.Result' instead of type '{type(result).__qualname__}'")
 
         self.__result = result
 

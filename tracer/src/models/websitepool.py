@@ -143,9 +143,6 @@ class WebsitePool(object):
             name is not type 'str'
         """
 
-        if not isinstance(name, str):
-            raise TypeError(f"Expected type 'str' instead of type '{type(name).__qualname__}'")
-
         self.__name = name
 
     def set_username(self, username: Optional[str]) -> None:
@@ -161,9 +158,6 @@ class WebsitePool(object):
         TypeError
             username is not type 'str'
         """
-
-        if not isinstance(username, str):
-            raise TypeError(f"Expected type 'str' instead of type '{type(username).__qualname__}'")
 
         for site in self.sites:
             site.set_username(username)
@@ -181,9 +175,6 @@ class WebsitePool(object):
         TypeError
             website is not type 'tracer.Website'
         """
-
-        if not isinstance(website, Website):
-            raise TypeError(f"Expected type 'tracer.Website' instead of type '{type(website).__qualname__}'")
 
         if not self.__allow_duplicates and website in self:
             return None
@@ -207,9 +198,6 @@ class WebsitePool(object):
         TypeError
             pool is not type 'tracer.WebsitePool'
         """
-
-        if not isinstance(pool, self.__class__):
-            raise TypeError(f"Expected type 'tracer.{self.__class__.__qualname__}' instead of type '{type(pool).__qualname__}'")
 
         for site in pool:
             self.add(copy.deepcopy(site) if _deepcopy else site)
