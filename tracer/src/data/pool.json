@@ -115,6 +115,7 @@
         "display_url": "https://www.caffeine.tv/{}/profile/",
         "domain": "caffeine.tv",
         "err_text_pattern": "\"_account\":[\"Could not be found.\"]",
+        "err_on_dot": true,
         "category": 6
     },
     {
