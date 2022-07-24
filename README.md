@@ -20,7 +20,7 @@ Tracer is an OSINT tool that can be used to detect on which websites a username 
 
 Tracer provides the following features:
 
-- 150+ sites that are checked
+- 170+ sites that are checked
 
 - Filter websites based on their domain or category
 
