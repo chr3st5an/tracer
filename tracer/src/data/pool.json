@@ -270,6 +270,13 @@
         "category": 4
     },
     {
+        "url": "https://www.experts-exchange.com/members/{}",
+        "domain": "experts-exchange.com",
+        "err_text_pattern": "<title.*?>Not Found</title>",
+        "err_on_dot": true,
+        "category": 16
+    },
+    {
         "url": "https://facebook.com/{}",
         "domain": "facebook.com",
         "err_text_pattern": "<head><meta",
@@ -487,7 +494,7 @@
     {
         "url": "https://issuu.com/{}",
         "domain": "issuu.com",
-        "err_text_pattern": "<title.*?>Issuu.*?</title>",
+        "err_text_pattern": "<title.*?>Issuu - Page.*?</title>",
         "category": 3
     },
     {
@@ -572,15 +579,9 @@
         "category": 15
     },
     {
-        "url": "https://linkr.bio/{}",
-        "domain": "linkr.bio",
-        "err_text_pattern": "<title.*?>Linkr.*?</title>",
-        "category": 15
-    },
-    {
         "url": "https://linktr.ee/{}",
         "domain": "linktr.ee",
-        "err_text_pattern": "<title.*?>Linktree.*?</title>",
+        "err_text_pattern": "\",\"statusCode\":404",
         "category": 15
     },
     {
