@@ -341,17 +341,17 @@ class Website(object):
             Indicator if the username exists
         """
 
-        await asyncio.sleep(0.0075)
+        await asyncio.sleep(0)
 
         if not (response.status == 200 or self.err_ignore_code):
             return False
 
-        await asyncio.sleep(0.0075)
+        await asyncio.sleep(0)
 
         if self.err_url_pattern and re.search(self.err_url_pattern, str(response.url), flags=re.I):
             return False
 
-        await asyncio.sleep(0.0075)
+        await asyncio.sleep(0)
 
         if self.err_text_pattern and re.search(self.err_text_pattern, html, flags=re.S + re.I + re.M):
             return False
@@ -362,7 +362,7 @@ class Website(object):
         if (callback is None) or (not callable(callback)):
             return None
 
-        await asyncio.sleep(0.0075)
+        await asyncio.sleep(0)
 
         if inspect.iscoroutinefunction(callback):
             return await callback(self.result)
