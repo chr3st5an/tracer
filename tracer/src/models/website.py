@@ -312,7 +312,7 @@ class Website(object):
                 else:
                     self.set_result(Result(self, r.status, False, monotonic() - start, r.host, self.url))
 
-                await asyncio.sleep(0.0075)
+                await asyncio.sleep(0)
 
                 r.close()
         except TimeoutError:
