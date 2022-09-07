@@ -3,6 +3,9 @@ from typing import Optional
 from colorama import Fore
 
 
+__all__ = ("Result", )
+
+
 class Result(object):
     """Represents the result of a HTTP request
 

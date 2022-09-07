@@ -8,6 +8,9 @@ import re
 from .category import Category
 
 
+__all__ = ("TracerParser", )
+
+
 class TracerParser(object):
     """Parses relevant args for Tracer
 

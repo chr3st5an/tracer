@@ -14,6 +14,9 @@ from .category import Category
 from .result import Result
 
 
+__all__ = ("Website", )
+
+
 class Website(object):
     """Represents a website
 

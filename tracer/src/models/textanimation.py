@@ -4,6 +4,9 @@ import asyncio
 from colorama import Fore
 
 
+__all__ = ("AsyncTextAnimation", )
+
+
 class AsyncTextAnimation(object):
     """Represents a simple text animation
 

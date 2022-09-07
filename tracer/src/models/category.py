@@ -2,6 +2,9 @@ from typing import Any, Dict, List
 from copy import deepcopy
 
 
+__all__ = ("Category", )
+
+
 class Category(object):
     """Used to represent the category of a site
 

@@ -31,6 +31,9 @@ except ModuleNotFoundError:
     from .src import *
 
 
+__all__ = ("Tracer", )
+
+
 CONFIG = "./settings.conf"
 MY_IP  = "https://api.myip.com"
 

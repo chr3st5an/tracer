@@ -10,6 +10,9 @@ from .website import Website
 from .result import Result
 
 
+__all__ = ("WebsitePool", )
+
+
 class WebsitePool(object):
     """Represents a collection of `tracer.Website` instances
 
