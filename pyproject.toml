@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Tracer"
+readme = "README.md"
+license = {text = "MIT"}
+description = "A simple username checker for social media websites"
+authors = [
+    {name = "chr3st5an"}
+]
+keywords = ["username", "username checker", "osint"]
+requires-python = ">=3.7"
+classifiers = ["Programming Language :: Python :: 3"]
+dependencies = [
+    "wheel>=0.34.2",
+    "requests>=2.22.0",
+    "aiohttp>=3.8.1",
+    "colorama>=0.4.3",
+    "asyncio>=3.4.3",
+    "aiofiles>=0.8.0",
+    "pyvis>=0.2.0"
+]
+dynamic = ["version"]
+
+[project.urls]
+repository = "https://github.com/chr3st5an/tracer"
+homepage = "https://tracer-project.online/"
+
+[tool.setuptools.dynamic]
+version = {attr = "tracer.__version__"}
