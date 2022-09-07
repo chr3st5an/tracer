@@ -28,7 +28,7 @@ import sys
 import os
 
 
-__all__ = ["LOGO", "HTTPHEADER", "POOL"]
+__all__ = ("LOGO", "HTTPHEADER", "POOL")
 
 
 POOL: List[Dict[str, str]]
