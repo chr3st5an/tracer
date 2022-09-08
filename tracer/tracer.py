@@ -150,8 +150,6 @@ class Tracer(object):
 
                 counter += 1
 
-        await session.close()
-
         print(
             f"\n[{Fore.CYAN}={Fore.RESET}] Found {Fore.CYAN}{counter}{Fore.RESET} match(es) "
             f"in {Fore.CYAN}{round(monotonic() - start, 2)}s{Fore.RESET}"
@@ -219,7 +217,7 @@ class Tracer(object):
             )
             net.add_edge(self.username, category.title())
 
-            await asyncio.sleep(0.00075)
+            await asyncio.sleep(0)
 
         for site in self.pool:
             if site.result.user_exists:
@@ -232,7 +230,7 @@ class Tracer(object):
                 )
                 net.add_edge(site.category.as_str.title(), site.name)
 
-            await asyncio.sleep(0.00075)
+            await asyncio.sleep(0)
 
         #> Settings for the graph
         net.toggle_physics(True)

@@ -148,18 +148,13 @@ class WebsitePool(object):
 
         self.__name = name
 
-    def set_username(self, username: Optional[str]) -> None:
+    def set_username(self, username: str, /) -> None:
         """Sets the username for every website within the pool
 
         Parameters
         ----------
         username : str
             The username to set for every website
-
-        Raises
-        ------
-        TypeError
-            username is not type 'str'
         """
 
         for site in self.sites:
@@ -172,11 +167,6 @@ class WebsitePool(object):
         ----------
         website : tracer.Website
             The website to add to the pool
-
-        Raises
-        ------
-        TypeError
-            website is not type 'tracer.Website'
         """
 
         if not self.__allow_duplicates and website in self:
@@ -195,11 +185,6 @@ class WebsitePool(object):
             Whether to generate copies of the sites and
             add these or add the original sites, by
             default True
-
-        Raises
-        ------
-        TypeError
-            pool is not type 'tracer.WebsitePool'
         """
 
         for site in pool:
@@ -291,8 +276,7 @@ class WebsitePool(object):
         >>>    print(result.url)
         """
 
-        results = asyncio.Queue()
-
+        results  = asyncio.Queue()
         requests = [site.send_request(session, timeout, callback=results.put) for site in self]
 
         requests = asyncio.gather(*requests)
@@ -300,6 +284,6 @@ class WebsitePool(object):
         while not (results.empty() and requests.done()):
             try:
                 yield await asyncio.wait_for(results.get(), timeout=0.25)
-            except Exception:
-                """Forces recheck of the loop condition
+            except asyncio.TimeoutError:
+                """Force recheck of the loop condition
                 """

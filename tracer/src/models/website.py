@@ -4,7 +4,6 @@ from typing import Any, Callable, Coroutine, Dict, Optional, Union
 from time import monotonic
 from copy import deepcopy
 import asyncio
-import inspect
 import re
 
 from aiohttp import ClientSession, ClientResponse, ClientTimeout
@@ -245,11 +244,6 @@ class Website(object):
         ----------
         username : Optional[str]
             The username to set for the website
-
-        Raises
-        ------
-        TypeError
-            username is not a string
         """
 
         self.__username = username
@@ -261,11 +255,6 @@ class Website(object):
         ----------
         result : Optional[Result]
             The result for the website
-
-        Raises
-        ------
-        TypeError
-            result is not an instance of tracer.Result
         """
 
         self.__result = result
@@ -292,12 +281,12 @@ class Website(object):
 
         Raises
         ------
-        Exception
+        TypeError
             username not set
         """
 
         if self.username is None:
-            raise Exception("Cannot start request without a username being set")
+            raise TypeError("Cannot start request without a username being set")
 
         if "." in self.username and self.err_on_dot:
             self.set_result(Result(self, 400, False, 0, self.domain, self.url))
@@ -315,9 +304,8 @@ class Website(object):
                 else:
                     self.set_result(Result(self, r.status, False, monotonic() - start, r.host, self.url))
 
-                await asyncio.sleep(0)
-
                 r.close()
+                await r.wait_for_close()
         except TimeoutError:
             self.set_result(Result(self, 400, False, monotonic() - start, self.domain, self.url, True))
         except Exception as e:
@@ -344,8 +332,6 @@ class Website(object):
             Indicator if the username exists
         """
 
-        await asyncio.sleep(0)
-
         if not (response.status == 200 or self.err_ignore_code):
             return False
 
@@ -367,7 +353,7 @@ class Website(object):
 
         await asyncio.sleep(0)
 
-        if inspect.iscoroutinefunction(callback):
+        if asyncio.iscoroutinefunction(callback):
             return await callback(self.result)
 
         return callback(self.result)
