@@ -1,4 +1,4 @@
-from typing import Any, Callable, Coroutine, Tuple
+from typing import Any, Callable, Generator, Tuple
 import asyncio
 
 from colorama import Fore
@@ -32,7 +32,7 @@ class AsyncTextAnimation(object):
 
     >>> animation = AsyncTextAnimation("Waiting for foo...", lambda: not task.done())
 
-    >>> await animation()
+    >>> await animation
 
     Supported Operations
     --------------------
@@ -40,14 +40,11 @@ class AsyncTextAnimation(object):
         Returns the str representation of the text animation
     `len(obj)`
         Returns the length of the message
-    `obj()`
-        Returns a coroutine which starts the animation.
-        Alias for `obj.start()`
 
     Note
     ----
     While the animation is being displayed, there shouldn't
-    be any other part calling `print`
+    be any other part in the program writing to the stdout
 
     Author
     ------
@@ -83,8 +80,19 @@ class AsyncTextAnimation(object):
     def __len__(self) -> int:
         return len(self.__message)
 
-    def __call__(self) -> Coroutine[Any, Any, None]:
-        return self.start()
+    def __await__(self) -> Generator:
+        animation_sequence = "|/-\\"
+
+        while self.__condition(*self.__args):
+            for char in animation_sequence:
+                spinner = f"[{Fore.CYAN}{char}{Fore.RESET}]" if self.colored else f"[{char}]"
+
+                print(f"\r{spinner} {self.__message}", end="", flush=True)
+
+                yield from asyncio.sleep(0.1).__await__()
+
+        # Removes the loading message
+        print("\r" + (" " * (len(self) + 10)), end="\r")
 
     @property
     def message(self) -> str:
@@ -149,23 +157,4 @@ class AsyncTextAnimation(object):
         function using `print`.
         """
 
-        await asyncio.create_task(self.__runner())
-
-    async def __runner(self) -> None:
-        """Main logic of the animation
-        """
-
-        animation_sequence = "|/-\\"
-
-        while self.__condition(*self.__args):
-            for char in animation_sequence:
-                await asyncio.sleep(0.1)
-
-                beginning = f"[{Fore.CYAN}{char}{Fore.RESET}]" if self.colored else f"[{char}]"
-
-                message = f"{beginning} {self.__message}"
-
-                print("\r" + message, end="")
-
-        # Removes the loading message
-        print("\r" + " " * (len(self) + 10), end="\r")
+        await self

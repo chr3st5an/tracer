@@ -264,7 +264,7 @@ class Tracer(object):
 
         response = asyncio.create_task(send_request())
 
-        await AsyncTextAnimation("Retrieving IP...", lambda: not response.done()).start()
+        await AsyncTextAnimation("Retrieving IP...", lambda: not response.done())
 
         print(f"Your IP address is {Fore.CYAN}{response.result()['ip']}{Fore.RESET}\n")
 
