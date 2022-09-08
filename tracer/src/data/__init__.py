@@ -24,7 +24,6 @@ SOFTWARE.
 
 from typing import List, Dict
 import json
-import sys
 import os
 
 
@@ -73,4 +72,4 @@ try:
         POOL = json.load(f)
 except FileNotFoundError:
     print(f"[ERROR] Required file '{FileLocation.POOL}' not found! Quitting program.")
-    sys.exit(0)
+    exit(0)
