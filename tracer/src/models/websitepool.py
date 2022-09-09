@@ -98,7 +98,7 @@ class WebsitePool(object):
         yield from self.__sites
 
     def __contains__(self, obj: Any) -> bool:
-        return isinstance(obj, Website) and any(map(lambda w: w == obj, self))
+        return isinstance(obj, Website) and any(obj is website for website in self)
 
     def __copy__(self) -> WebsitePool:
         pool = self.__class__.__new__(self.__class__)
