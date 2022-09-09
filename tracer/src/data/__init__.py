@@ -23,16 +23,17 @@ SOFTWARE.
 """
 
 from typing import List, Dict
+from secrets import choice
 import json
 import os
 
 
-__all__ = ("LOGO", "HTTPHEADER", "POOL")
+__all__ = ("LOGO", "USER_AGENT", "POOL")
 
 
 POOL: List[Dict[str, str]]
 LOGO: str
-HTTPHEADER: Dict[str, str]
+USER_AGENT: str
 
 
 class FileLocation(object):
@@ -49,7 +50,7 @@ class FileLocation(object):
 
     # COMMON FILES
     LOGO       = _path + "logo.txt"
-    HTTPHEADER = _path + "httpheader.json"
+    USER_AGENT = _path + "user_agents.json"
     POOL       = _path + "pool.json"
 
 
@@ -60,12 +61,13 @@ except FileNotFoundError:
     LOGO = ""
     print(f"[WARNING] File '{FileLocation.LOGO}' not found! Using no logo.")
 
+# UserAgents taken from here: https://gist.github.com/pzb/b4b6f57144aea7827ae4#file-user-agents-txt
 try:
-    with open(FileLocation.HTTPHEADER) as f:
-        HTTPHEADER = json.load(f)
+    with open(FileLocation.USER_AGENT) as f:
+        USER_AGENT = choice(json.load(f))
 except FileNotFoundError:
-    HTTPHEADER = {}
-    print(f"[WARNING] File '{FileLocation.HTTPHEADER}' not found! Using default header.")
+    USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko"
+    print(f"[WARNING] File '{FileLocation.USER_AGENT}' not found! Using the default UserAgent.")
 
 try:
     with open(FileLocation.POOL) as f:

@@ -139,11 +139,6 @@ class WebsitePool(object):
         ----------
         name : str
             Name for the pool
-
-        Raises
-        ------
-        TypeError
-            name is not type 'str'
         """
 
         self.__name = name
@@ -222,7 +217,7 @@ class WebsitePool(object):
 
         return tuple(filter(where, self))
 
-    def get_by_name(self, name: str) -> Optional[Website]:
+    def get_by_name(self, name: str, /) -> Optional[Website]:
         """Retrieves a website by its name
 
         Parameters

@@ -72,15 +72,15 @@ class Tracer(object):
     def __init__(self,
         username: str,
         data: List[Dict[str, str]] = POOL,
-        headers: Dict[str, str] = HTTPHEADER,
+        user_agent: str = USER_AGENT,
         **kwargs
     ) -> None:
 
-        self.username = username
-        self.kwargs   = dict(kwargs)
-        self.headers  = headers
-        self.pool     = WebsitePool(*map(Website.from_dict, data), name="TracerPool")
-        self.verbose  = kwargs.get("verbose", False)
+        self.username   = username
+        self.kwargs     = dict(kwargs)
+        self.user_agent = user_agent
+        self.pool       = WebsitePool(*map(Website.from_dict, data), name="TracerPool")
+        self.verbose    = kwargs.get("verbose", False)
 
         self.pool.set_username(self.username)
 
@@ -121,7 +121,10 @@ class Tracer(object):
         if self.kwargs.get("print_logo", True):
             print(f"\n{Fore.CYAN}{LOGO}{Fore.RESET}\n")
 
-        async with ClientSession(headers=self.headers, cookie_jar=aiohttp.DummyCookieJar()) as session:
+        cookie_jar = aiohttp.DummyCookieJar()
+        headers    = {"User-Agent": self.user_agent}
+
+        async with ClientSession(headers=headers, cookie_jar=cookie_jar) as session:
             if self.kwargs.get("ip_check"):
                 await self.retrieve_ip(session, timeout=self.kwargs.get("ip_timeout"))
 
