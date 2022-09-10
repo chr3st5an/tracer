@@ -1,12 +1,12 @@
 """Tracer
 
-This script allows the user to detect on which websites a username is currently
-used. Chances are that there is always the same person behind a username as
+This script allows to detect on which websites a username is currently
+taken. Chances are that there is always the same person behind a username as
 long as the username is special enough.
 
-Arguments can be provided through the CLI or through a config (.conf) file.
+Arguments can be provided through the CLI or through the config (.conf) file.
 
-This script requires aiohttp, requests, aiofiles & colorama to be installed.
+Dependencies: requirements.txt
 """
 
 from typing import Dict, List, Optional, Union
@@ -39,7 +39,7 @@ MY_IP  = "https://api.myip.com"
 
 
 class Tracer(object):
-    """Implements the main logic behind Tracer
+    """Implement the main logic behind Tracer
 
     Author
     ------
@@ -48,21 +48,22 @@ class Tracer(object):
 
     @classmethod
     def main(cls) -> None:
-        """Creates a tracer instance and calls its run coro
+        """Create a tracer instance and call its run coro
 
-        Parses given args and creates an asyncio event loop
-        with which it applies `run_until_complete` on the
-        run coro.
+        Parse given args and create an event loop
+        which executes the `run` coro
         """
 
         os.chdir(os.path.dirname(os.path.realpath(__file__)))
 
-        #> Gets the configs from the conf file and
-        #> updates these with the provided CLI options
+        # Parse the configs from the conf file and
+        # update these with the arguments given by the CLI
         kwargs = TracerParser(CONFIG).parse()
 
         try:
-            loop = asyncio.get_event_loop()
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
             loop.run_until_complete(cls(kwargs.pop("username"), **kwargs).run())
         except KeyboardInterrupt:
             print("👋 Bye")
@@ -90,8 +91,8 @@ class Tracer(object):
         if kwargs.get("create_file_output"):
             self._create_output_dir()
 
-        #> When sending a request to TikTok, an annoying message
-        #> is printed by aiohttp. This turns the message off.
+        # When sending a request to TikTok, an annoying message
+        # is printed by aiohttp. This turns the message off.
         http.cookies._is_legal_key = lambda _: True
 
     def __str__(self) -> str:
@@ -99,6 +100,9 @@ class Tracer(object):
             f"headers={self.headers}, pool={self.pool})>"
 
     def __filter_sites(self) -> None:
+        """Filter the list of sites based on the given arguments
+        """
+
         include: List[str] = self.kwargs.get('only', []) + self.kwargs.get('only_category', [])
         exclude: List[str] = self.kwargs.get('exclude', []) + self.kwargs.get('exclude_category', [])
 
@@ -115,7 +119,7 @@ class Tracer(object):
             self.pool.remove(lambda w: not ((w.domain in include) or (w.category.as_str in include)))
 
     async def run(self) -> None:
-        """Runs the program
+        """Run the program
         """
 
         if self.kwargs.get("print_logo", True):
@@ -164,7 +168,7 @@ class Tracer(object):
         )
 
     async def write_report(self, out_dir: Union[str, Path]) -> None:
-        """Creates and writes a report file which contains the results
+        """Create and write a report file which contains the results
 
         Parameters
         ----------
@@ -186,9 +190,9 @@ class Tracer(object):
                 await file.write(result.url + "\n")
 
     async def draw_graph(self, out_dir: Optional[Union[str, Path]]) -> None:
-        """Visualizes the results
+        """Visualize the results
 
-        Creates a HTML file containing a graph and opens it
+        Create a HTML file containing a graph and open it
         in the default webbrowser
 
         Parameters
@@ -235,25 +239,25 @@ class Tracer(object):
 
             await asyncio.sleep(0)
 
-        #> Settings for the graph
+        # Settings for the graph
         net.toggle_physics(True)
         net.set_edge_smooth("dynamic")
 
-        #> Saves the graph in a html file and opens it
-        #> in the default browser
+        # Save the graph in a html file and open it
+        # in the default browser
         net.show(f"{out_dir}graph.html")
 
     async def retrieve_ip(self, session: ClientSession, timeout: Optional[float] = None) -> str:
-        """Retrieves the IP address and prints it
+        """Retrieve the IP address and prints it
 
-        Sleeps for 3 seconds after the IP got printed.
+        Sleep for 3 seconds after the IP got retrieved.
 
         Parameters
         ----------
         session : aiohttp.ClientSession
-            Session used to sent a request
+            Session used to send a request
         timeout : Union[int, float], optional
-            Sets a timeout for the request. Defaults to None.
+            Set a timeout for the request, by default None
         """
 
         async def send_request():
@@ -271,16 +275,22 @@ class Tracer(object):
 
         await asyncio.sleep(3)
 
-    def _create_output_dir(self) -> str:
-        folder_name = "./results/"
+    def _create_output_dir(self) -> None:
+        """Create the directory in which the results are saved
+        """
 
-        if not os.path.exists(folder_name):
-            os.mkdir(folder_name)
+        results_dir = "../results/"
 
-        if not os.path.exists(f"{folder_name}{self.username}"):
-            os.mkdir(f"{folder_name}{self.username}/")
+        if not os.path.exists(results_dir):
+            try:
+                os.mkdir(results_dir)
+            except PermissionError:
+                return None
 
-        self._out_dir = f"{folder_name}{self.username}/"
+        if not os.path.exists(f"{results_dir}{self.username}"):
+            os.mkdir(f"{results_dir}{self.username}/")
+
+        self._out_dir = f"{results_dir}{self.username}/"
 
 
 if __name__ == "__main__":
