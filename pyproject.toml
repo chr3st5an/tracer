@@ -20,7 +20,9 @@ dependencies = [
     "colorama>=0.4.3",
     "asyncio>=3.4.3",
     "aiofiles>=0.8.0",
-    "pyvis>=0.2.0"
+    "pyvis>=0.2.0",
+    "aiohttp_jinja2>=1.5",
+    "jinja2>=3.1.1"
 ]
 dynamic = ["version"]
 

@@ -125,6 +125,7 @@ class TracerParser(object):
             usage="%(prog)s [options] username",
             description="Check on which website the specified username is in use",
             epilog="A tool created by @chr3st5an",
+            exit_on_error=False
         )
 
         parser.add_argument(
@@ -136,14 +137,12 @@ class TracerParser(object):
         parser.add_argument(
             "-t",
             "--timeout",
-            metavar="seconds",
             type=int,
             help="set a timeout for each request",
         )
         parser.add_argument(
             "-e",
             "--exclude",
-            metavar="domainName",
             type=str,
             default=list(),
             action="append",
@@ -152,7 +151,6 @@ class TracerParser(object):
         parser.add_argument(
             "-o",
             "--only",
-            metavar="domainName",
             type=str,
             default=list(),
             action="append",
@@ -161,7 +159,6 @@ class TracerParser(object):
         parser.add_argument(
             "-E",
             "--exclude-category",
-            metavar="category",
             type=str,
             default=list(),
             action="append",
@@ -171,7 +168,6 @@ class TracerParser(object):
         parser.add_argument(
             "-O",
             "--only-category",
-            metavar="category",
             type=str,
             default=list(),
             action="append",
@@ -183,7 +179,7 @@ class TracerParser(object):
             "--browse",
             default=False,
             action="store_true",
-            help="open successfull results in browser",
+            help="open successful results in browser",
         )
         parser.add_argument(
             "-v",
@@ -203,7 +199,13 @@ class TracerParser(object):
             "--ip-check",
             default=False,
             action="store_true",
-            help="retrieve and print your IP on program startup and then wait 3s before continuing",
+            help="retrieve and print your IP on program startup and wait 3s before continuing",
+        )
+        parser.add_argument(
+            "--web",
+            default=False,
+            action="store_true",
+            help="start a GUI version of Tracer in your browser"
         )
 
         args: Dict[str, Any] = {}

@@ -11,5 +11,5 @@ from .src import *
 
 __title__   = "Tracer"
 __author__  = "chr3st5an"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 __license__ = "MIT"

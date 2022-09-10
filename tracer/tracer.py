@@ -21,6 +21,7 @@ import os
 
 from pyvis.network import Network
 from aiohttp import ClientSession
+from aiohttp.web import run_app
 from colorama import Fore
 import aiohttp
 import aiofiles
@@ -64,7 +65,13 @@ class Tracer(object):
             loop = asyncio.new_event_loop()
             asyncio.set_event_loop(loop)
 
-            loop.run_until_complete(cls(kwargs.pop("username"), **kwargs).run())
+            if kwargs.get("web"):
+                from gui import app
+
+                loop.call_later(1, webbrowser.open, "http://127.0.0.1:12345")
+                run_app(app, host="127.0.0.1", port=12_345, loop=loop)
+            else:
+                loop.run_until_complete(cls(kwargs.pop("username"), **kwargs).run())
         except KeyboardInterrupt:
             print("👋 Bye")
         finally:

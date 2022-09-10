@@ -211,6 +211,11 @@ class Website(object):
 
     @property
     def name(self) -> str:
+        """Return the host name
+
+        `example.com` => `example`
+        """
+
         return self.__domain.split('.')[0]
 
     @property
