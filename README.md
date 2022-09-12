@@ -1,22 +1,23 @@
 <div align="center">
 
+[![Maintainer](https://img.shields.io/badge/Maintainer-chr3st5an-purple?style=for-the-badge)](https://github.com/chr3st5an)
+[![Python](https://img.shields.io/badge/Python->=3.7-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/)
+[![Category](https://img.shields.io/badge/Category-OSINT-brightgreen?style=for-the-badge)](https://en.wikipedia.org/wiki/Open-source_intelligence)
+[![License](https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge)](https://github.com/chr3st5an/tracer/blob/main/LICENSE)
+![Version](https://img.shields.io/badge/Version-1.0.2-brightgreen?style=for-the-badge)
 [![Logo](https://i.imgur.com/HV5KtwO.png)](https://github.com/chr3st5an/tracer)
 
-[![Maintainer](https://img.shields.io/badge/Maintainer-chr3st5an-cyan.svg)](https://github.com/chr3st5an)
-[![Python](https://img.shields.io/badge/Python->=3.7-yellow.svg)](https://www.python.org/downloads/release/python-3712/)
-[![GitHub license](https://badgen.net/github/license/Naereen/Strapdown.js)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
-![Open Source](https://badgen.net/badge/Open%20Source/Yes/blue?icon=github)
-![Version](https://img.shields.io/badge/Version-1.0.2-blue.svg)
+### Tracer
 
-Tracer is an OSINT tool that can be used to detect on which websites a username is currently in use
+Tracer detects on which website a username is currently in use!
+
+**[Official Repository](https://github.com/chr3st5an/tracer)** · **[Online Search](https://tracer-project.online/)** · **[Report Bug](https://github.com/chr3st5an/tracer/issues)**
 
 </div>
 
-[![Tracer - Preview](https://i.imgur.com/QTtt9oZ.jpg)](https://github.com/chr3st5an/tracer)
-
 </br>
 
-## 💡 Features
+## Features
 
 ---
 
@@ -40,11 +41,53 @@ Tracer provides the following features:
 
 - Easy to use
 
+<div align="right">
+
+[(Beam me up)](#tracer)
+
+</div>
+
 </br>
 
-## 📥 Installation
+## Built With
 
 ---
+
+- ![aiohttp](https://img.shields.io/badge/aiohttp-black?style=for-the-badge&logo=aiohttp)
+
+- ![jinja](https://img.shields.io/badge/jinja-black?style=for-the-badge&logo=jinja)
+
+</br>
+
+## Getting Started
+
+---
+
+### Prerequisites
+
+For Tracer to work, you will need Python 3.7 or later and pip. You can download Python from the [official website](https://www.python.org/downloads/). Python ships with pip. Verify the versions:
+
+- python
+
+```bash
+python -V
+```
+
+- pip
+
+```bash
+pip -V # or "python -m pip -V"
+```
+
+<div align="right">
+
+[(Beam me up)](#tracer)
+
+</div>
+
+### Installation
+
+1. Clone this repository
 
 ```bash
 git clone https://github.com/chr3st5an/tracer.git
@@ -52,54 +95,76 @@ git clone https://github.com/chr3st5an/tracer.git
 
 > 🛈 If you do not have `git`, you can download this repository by clicking on `Code` > `Download ZIP`. Unzip the folder and open a terminal.
 
+2. Navigate into the just downloaded folder
+
 ```bash
 cd tracer/
 ```
 
+3. Install dependencies
+
 ```bash
-python -m pip install -r ./requirements.txt
+pip install -r ./requirements.txt
 ```
 
-> 🛈 Your OS might be equipped with the `python3` and `pip3` commands instead of `python` and `pip`
+<div align="right">
+
+[(Beam me up)](#tracer)
+
+</div>
 
 </br>
 
-## 🔨 Usage
+## Usage
 
 ---
 
-```bash
-python tracer/ [OPTIONS] username  # Executing the folder
-```
+After you installed all dependencies you are ready to run Tracer for the first time 🎉 To do so, open a terminal in the project's root folder and run the following command:
 
 ```bash
-python tracer.py [OPTIONS] username  # Executing the script
+python tracer [OPTIONS] username
 ```
+
+Where `[OPTIONS]` are optional flags you can pass to Tracer to modify its behavior. More about options [later](#options).
+
+<div align="right">
+
+[(Beam me up)](#tracer)
+
+</div>
 
 </br>
 
-## 🌐 GUI
+## GUI
 
 ---
 
+Tracer also offers a GUI in form of a webapp. You can run the webapp by executing the following command:
+
 ```bash
-python tracer/ --web tracer
+python tracer --web tracer
 ```
 
-Runs a local server on port 12345 which automatically gets opened in your browser
+This will run the webapp on port 12345. Tracer should automatically open your browser and connect to the webapp. If not, open your browser manually and type `http://127.0.0.1:12345` into the search bar and hit enter.
 
 ![Browser](https://i.imgur.com/TRRtQMP.png)
 
+<div align="right">
+
+[(Beam me up)](#tracer)
+
+</div>
+
 </br>
 
-## 🔗 Options
+## Options
 
 ---
 
 For a list of all available commands and options, use the `-h` flag or read the following section
 
-```batch
-python tracer/ -h
+```bash
+python tracer -h
 ```
 
 <details>
@@ -130,18 +195,22 @@ python tracer/ -h
 
 </details>
 
+<div align="right">
+
+[(Beam me up)](#tracer)
+
+</div>
+
 </br>
 
-## 📄 License
+## License
 
 ---
 
 This project is licensed under the **MIT** license. For more information check out the project's license file.
 
-</br></br>
+<div align="right">
 
-<div align="center">
-
-![Made With Python](https://ForTheBadge.com/images/badges/made-with-python.svg)
+[(Beam me up)](#tracer)
 
 </div>
