@@ -1,13 +1,38 @@
+"""
+MIT License
+
+Copyright (c) 2022 chr3st5an
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
+
 from __future__ import annotations
 
 from typing import Any, Callable, Coroutine, Dict, Optional, Union
+from abc import ABC, abstractmethod, abstractclassmethod
+from asyncio import TimeoutError
 from time import monotonic
 from copy import deepcopy
 import asyncio
 import re
 
 from aiohttp import ClientSession, ClientResponse, ClientTimeout
-from asyncio import TimeoutError
 
 from .category import Category
 from .result import Result
@@ -16,7 +41,25 @@ from .result import Result
 __all__ = ("Website", )
 
 
-class Website(object):
+class AbstractWebsite(ABC):
+    @abstractclassmethod
+    def from_dict(self, data):
+        pass
+
+    @abstractmethod
+    def set_username(self, username):
+        pass
+
+    @abstractmethod
+    def set_result(self, result):
+        pass
+
+    @abstractmethod
+    async def send_request(self, session, *args):
+        pass
+
+
+class Website(AbstractWebsite):
     """Represents a website
 
     Attributes
