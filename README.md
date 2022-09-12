@@ -8,15 +8,17 @@
 ![Open Source](https://badgen.net/badge/Open%20Source/Yes/blue?icon=github)
 ![Version](https://img.shields.io/badge/Version-1.0.2-blue.svg)
 
-Tracer is an OSINT tool that can be used to detect on which websites a username is currently in use.
+Tracer is an OSINT tool that can be used to detect on which websites a username is currently in use
 
 </div>
 
 [![Tracer - Preview](https://i.imgur.com/QTtt9oZ.jpg)](https://github.com/chr3st5an/tracer)
 
----
+</br>
 
 ## 💡 Features
+
+---
 
 Tracer provides the following features:
 
@@ -38,9 +40,11 @@ Tracer provides the following features:
 
 - Easy to use
 
----
+</br>
 
 ## 📥 Installation
+
+---
 
 ```bash
 git clone https://github.com/chr3st5an/tracer.git
@@ -57,9 +61,12 @@ python -m pip install -r ./requirements.txt
 ```
 
 > 🛈 Your OS might be equipped with the `python3` and `pip3` commands instead of `python` and `pip`
----
+
+</br>
 
 ## 🔨 Usage
+
+---
 
 ```bash
 python tracer/ [OPTIONS] username  # Executing the folder
@@ -69,9 +76,11 @@ python tracer/ [OPTIONS] username  # Executing the folder
 python tracer.py [OPTIONS] username  # Executing the script
 ```
 
----
+</br>
 
-## 🍿 Using Tracer in your browser
+## 🌐 GUI
+
+---
 
 ```bash
 python tracer/ --web tracer
@@ -79,15 +88,55 @@ python tracer/ --web tracer
 
 Runs a local server on port 12345 which automatically gets opened in your browser
 
+![Browser](https://i.imgur.com/TRRtQMP.png)
+
+</br>
+
+## 🔗 Options
+
 ---
 
-## 👀 All options
+For a list of all available commands and options, use the `-h` flag or read the following section
 
-For a list of all options run the following command
-
-```bash
-python tracer.py --help
+```batch
+python tracer/ -h
 ```
+
+<details>
+
+<summary>Options</summary>
+
+- `-h`, `--help` *print a help message and exit*
+
+- `-t <timeout>` *set a timeout for requests*
+
+- `-e <domain>` *exclude a domain*
+
+- `-o <domain>` *only check this domain for the username*
+
+- `-O <category>` *only check sites that fall under this category for the username*
+
+- `-E <category>` *exclude all sites that fall under this category*
+
+- `-b` *open sites on which the username got found, in your default browser*
+
+- `-v` *print additional information while the program runs*
+
+- `-a` *print all websites*
+
+- `--web` *run a GUI in form of a local webapp*
+
+- `--ip-check` *retrieve your public IP address before starting the main program*
+
+</details>
+
+</br>
+
+## 📄 License
+
+---
+
+This project is licensed under the **MIT** license. For more information check out the project's license file.
 
 </br></br>
 
