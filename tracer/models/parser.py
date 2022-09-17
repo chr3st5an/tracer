@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+__all__ = ("TracerParser",)
+
 from configparser import ConfigParser
 from typing import Any, Dict, Union
 from abc import ABC, abstractmethod
@@ -31,9 +33,6 @@ import os
 import re
 
 from .category import Category
-
-
-__all__ = ("TracerParser", )
 
 
 class AbstractTracerParser(ABC):
@@ -72,7 +71,7 @@ class TracerParser(AbstractTracerParser):
     chr3st5an
     """
 
-    __slots__ = ("config_file", )
+    __slots__ = ("config_file",)
 
     def __init__(self, config_file: Union[Path, str]):
         """Creates a parser
@@ -154,7 +153,8 @@ class TracerParser(AbstractTracerParser):
         parser = ArgumentParser(
             prog="tracer",
             usage="%(prog)s [options] username",
-            description="Check on which website the specified username is in use",
+            description=("Check on which website the specified "
+                         "username is in use"),
             epilog="A tool created by @chr3st5an",
         )
 
@@ -176,7 +176,8 @@ class TracerParser(AbstractTracerParser):
             type=str,
             default=list(),
             action="append",
-            help="exclude a website, e.g. instagram.com. Can be used multiple times",
+            help=("exclude a website, e.g. instagram.com. "
+                  "Can be used multiple times"),
         )
         parser.add_argument(
             "-o",
@@ -184,7 +185,8 @@ class TracerParser(AbstractTracerParser):
             type=str,
             default=list(),
             action="append",
-            help="sent a request only to the given site. Can be used multiple times",
+            help=("sent a request only to the given site. Can "
+                  "be used multiple times"),
         )
         parser.add_argument(
             "-E",
@@ -192,8 +194,8 @@ class TracerParser(AbstractTracerParser):
             type=str,
             default=list(),
             action="append",
-            help=f"""exclude every website which belongs to the given category.
-                Categories: {', '.join(Category.all_categories())}""",
+            help=("exclude every website which belongs to the given category. "
+                 f"Categories: {', '.join(Category.all_categories())}"),
         )
         parser.add_argument(
             "-O",
@@ -201,8 +203,9 @@ class TracerParser(AbstractTracerParser):
             type=str,
             default=list(),
             action="append",
-            help="""sent requests only to the sites belonging to the given category.
-                See a list of all categories under -E""",
+            help=("sent requests only to the sites belonging "
+                  "to the given category. See a list of all "
+                  "categories under -E"),
         )
         parser.add_argument(
             "-b",
@@ -229,7 +232,8 @@ class TracerParser(AbstractTracerParser):
             "--ip-check",
             default=False,
             action="store_true",
-            help="retrieve and print your IP on program startup and wait 3s before continuing",
+            help=("retrieve and print your IP on program "
+                 "startup and wait 3s before continuing"),
         )
         parser.add_argument(
             "--web",

@@ -24,6 +24,8 @@ SOFTWARE.
 
 from __future__ import annotations
 
+__all__ = ("Website",)
+
 from typing import Any, Callable, Coroutine, Dict, Optional, Union
 from abc import ABC, abstractmethod, abstractclassmethod
 from asyncio import TimeoutError
@@ -36,9 +38,6 @@ from aiohttp import ClientSession, ClientResponse, ClientTimeout
 
 from .category import Category
 from .result import Result
-
-
-__all__ = ("Website", )
 
 
 class AbstractWebsite(ABC):
@@ -100,12 +99,12 @@ class Website(AbstractWebsite):
 
     Methods
     -------
-    obj.set_username(str) -> None
+    obj.set_username(str)
         Sets a username for the website whose existence is later being
         checked
-    obj.set_result(tracer.Result) -> None
+    obj.set_result(tracer.Result)
         Sets a result for the website
-    obj.send_request(aiohttp.ClientSession, Optional[float], Optional[Callable]) -> None
+    obj.send_request(ClientSession, Optional[float], Optional[Callable])
         Sends a HTTP GET request to the website and checks if
         the username exists. Then creates a `tracer.Result` object
         and assigns it to itself by using `obj.set_result`
@@ -141,7 +140,7 @@ class Website(AbstractWebsite):
     """
 
     @classmethod
-    def from_dict(cls, data: Dict[str, str]):
+    def from_dict(cls, data: Dict[str, str]) -> Website:
         """Creates a Website by using the given data
 
         Parameters
@@ -155,12 +154,6 @@ class Website(AbstractWebsite):
         -------
         tracer.Website
             The Website that got created
-
-        Example
-        -------
-        >>> data = {"domain": "example.com", "url": "https://...", "category": Category.OTHER}
-
-        >>> site = Website.from_dict(data)
         """
 
         return cls(
@@ -174,7 +167,8 @@ class Website(AbstractWebsite):
             err_on_dot=data.get("err_on_dot", False)
         )
 
-    def __init__(self,
+    def __init__(
+        self,
         domain: str,
         true_url: str,
         category: int,
@@ -183,7 +177,7 @@ class Website(AbstractWebsite):
         err_text_pattern: Optional[str] = None,
         err_url_pattern: Optional[str] = None,
         err_on_dot: bool = False
-    ) -> None:
+    ):
         """Creates an instance
 
         Parameters
@@ -217,32 +211,33 @@ class Website(AbstractWebsite):
             False
         """
 
-        self.__url      = display_url if display_url else true_url
+        self.__url = display_url if display_url else true_url
         self.__true_url = true_url
         self.__username = None
-        self.__result   = None
+        self.__result = None
         self.__category = Category(self, category)
-        self.__domain   = domain
+        self.__domain = domain
 
-        self.err_ignore_code  = err_ignore_code
+        self.err_ignore_code = err_ignore_code
         self.err_text_pattern = err_text_pattern
-        self.err_url_pattern  = err_url_pattern
-        self.err_on_dot       = err_on_dot
+        self.err_url_pattern = err_url_pattern
+        self.err_on_dot = err_on_dot
 
     def __str__(self) -> str:
-        return f"<{self.__class__.__qualname__}(name=\"{self.name}\", domain=\"{self.domain}\", " \
-            f"url=\"{self.url}\", category={self.category}, result={self.result})>"
+        return (f"<{self.__class__.__qualname__}(name={self.name!r}, "
+                f"domain={self.domain!r}, url={self.url!r}, "
+                f"category={self.category}, result={self.result})>")
 
     def __eq__(self, other: Any) -> bool:
         return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
 
-    def __copy__(self):
+    def __copy__(self) -> Website:
         website = self.__class__.__new__(self.__class__)
         website.__dict__.update(self.__dict__)
 
         return website
 
-    def __deepcopy__(self, memo: Dict[int, Any]):
+    def __deepcopy__(self, memo: Dict[int, Any]) -> Website:
         website = self.__class__.__new__(self.__class__)
 
         memo[id(self)] = website
@@ -285,7 +280,7 @@ class Website(AbstractWebsite):
     def true_url(self) -> str:
         return self.__true_url.format(self.username) if self.username else self.__true_url
 
-    def set_username(self, username: Optional[str]) -> None:
+    def set_username(self, username: str) -> None:
         """Sets a username
 
         Parameters
@@ -296,7 +291,7 @@ class Website(AbstractWebsite):
 
         self.__username = username
 
-    def set_result(self, result: Optional[Result]) -> None:
+    def set_result(self, result: Result) -> None:
         """Sets a result
 
         Parameters
@@ -307,10 +302,11 @@ class Website(AbstractWebsite):
 
         self.__result = result
 
-    async def send_request(self,
+    async def send_request(
+        self,
         session: ClientSession,
         timeout: Optional[float] = None,
-        callback: Optional[Callable[[Result], Union[Coroutine, Any]]] = None
+        cb: Optional[Callable[[Result], Union[Coroutine, Any]]] = None
     ) -> None:
         """Sends a GET requests and evaluates the response
 
@@ -321,7 +317,7 @@ class Website(AbstractWebsite):
         timeout : Optional[float], optional
             How many seconds the request has before a
             TimeoutError occurs, by default None
-        callback : Optional[Callable[[Result], Union[Coroutine, Any]]], optional
+        cb : Optional[Callable[[Result], Union[Coroutine, Any]]], optional
             Any callable object that gets called when
             the result is available. It should only
             take in one parameter which is the result,
@@ -334,38 +330,74 @@ class Website(AbstractWebsite):
         """
 
         if self.username is None:
-            raise TypeError("Cannot start request without a username being set")
+            raise TypeError(
+                "Cannot start request without a username being set"
+            )
 
         if "." in self.username and self.err_on_dot:
-            self.set_result(Result(self, 400, False, 0, self.domain, self.url))
+            self.set_result(
+                result=Result(
+                    website=self,
+                    status_code=400,
+                    successfully=False,
+                    delay=0,
+                    host=self.domain,
+                    url=self.url
+                )
+            )
 
-            await self.__callback(callback)
+            await self.__callback(cb)
 
             return None
 
+        timeout = ClientTimeout(timeout)
         start = monotonic()
 
         try:
-            async with session.get(self.true_url, timeout=ClientTimeout(timeout)) as r:
-                if await self.__user_exists(r):
-                    self.set_result(Result(self, r.status, True, monotonic() - start, r.host, self.url))
-                else:
-                    self.set_result(Result(self, r.status, False, monotonic() - start, r.host, self.url))
+            async with session.get(self.true_url, timeout=timeout) as response:
+                result = Result(
+                    website=self,
+                    status_code=response.status,
+                    successfully=await self.__user_exists(response),
+                    delay=monotonic() - start,
+                    host=response.host,
+                    url=self.url
+                )
 
-                r.close()
-                await r.wait_for_close()
+                response.close()
+                await response.wait_for_close()
         except TimeoutError:
-            self.set_result(Result(self, 400, False, monotonic() - start, self.domain, self.url, True))
+            result = Result(
+                website=self,
+                status_code=400,
+                successfully=False,
+                delay=monotonic() - start,
+                host=self.domain,
+                url=self.url,
+                timeout=True
+            )
         except Exception as e:
-            self.set_result(Result(self, 600, False, monotonic() - start, self.domain, self.url, error=e))
+            result = Result(
+                website=self,
+                status_code=600,
+                successfully=False,
+                delay=monotonic() - start,
+                host=self.domain,
+                url=self.url,
+                error=e
+            )
+        finally:
+            self.set_result(result)
 
-        await self.__callback(callback)
+        await self.__callback(cb)
+
+        return None
 
     async def __user_exists(self, response: ClientResponse) -> bool:
-        """Checks based on the returned response if the username is in use.
+        """Check based on the returned response if the username is in use.
 
-        First checks if the response status is 200 and then
-        applies the given regex pattern.
+        First check if the response status is 200, then
+        apply the given regex pattern on the returned text.
 
         Parameters
         ----------
@@ -383,18 +415,25 @@ class Website(AbstractWebsite):
 
         await asyncio.sleep(0)
 
-        if self.err_url_pattern and re.search(self.err_url_pattern, str(response.url), flags=re.I):
-            return False
+        if self.err_url_pattern:
+            if re.search(self.err_url_pattern, str(response.url), flags=re.I):
+                return False
 
-        text = await response.text()
+        if self.err_text_pattern:
+            text = await response.text()
 
-        if self.err_text_pattern and re.search(self.err_text_pattern, text, flags=re.S + re.I + re.M):
-            return False
+            if re.search(self.err_text_pattern, text, flags=re.S + re.I + re.M):
+                return False
 
         return True
 
-    async def __callback(self, callback: Optional[Callable[[Result], Union[Coroutine, Any]]]) -> Any:
-        if (callback is None) or (not callable(callback)):
+    async def __callback(
+        self,
+        callback: Optional[Callable[[Result], Union[Coroutine, Any]]]
+    ) -> Any:
+        """Async wrapper for the original callback function"""
+
+        if not callable(callback):
             return None
 
         await asyncio.sleep(0)

@@ -22,14 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+__all__ = ("AsyncTextAnimation",)
+
 from typing import Any, Callable, Generator, Tuple
 from abc import ABC, abstractmethod
 import asyncio
 
 from colorama import Fore
-
-
-__all__ = ("AsyncTextAnimation", )
 
 
 class AbstractTextAnimation(ABC):
@@ -61,18 +60,6 @@ class AsyncTextAnimation(AbstractTextAnimation):
     colored : bool
         If the animation should be colored
 
-    Example
-    -------
-    >>> async def foo():
-
-    >>>     await asyncio.sleep(5)
-
-    >>> task = asyncio.create_task(foo())
-
-    >>> animation = AsyncTextAnimation("Waiting for foo...", lambda: not task.done())
-
-    >>> await animation
-
     Supported Operations
     --------------------
     `str(obj)`
@@ -90,8 +77,14 @@ class AsyncTextAnimation(AbstractTextAnimation):
     chr3st5an
     """
 
-    def __init__(self, message: str, condition: Callable[..., bool], *args, color: bool = True) -> None:
-        """Creates an animation object
+    def __init__(
+        self,
+        message: str,
+        condition: Callable[..., bool],
+        *args,
+        color: bool = True
+    ):
+        """Create an animation object
 
         Parameters
         ----------
@@ -109,21 +102,22 @@ class AsyncTextAnimation(AbstractTextAnimation):
         self.set_message(message)
         self.set_condition(condition)
 
-        self.__args  = args
+        self.__args = args
         self.__color = bool(color)
 
     def __str__(self) -> str:
-        return f"<{self.__class__.__qualname__}(message=\"{self.__message}\", " \
-            f"condition={self.__condition}, args={self.__args}, colored={self.__color})>"
+        return (f"<{self.__class__.__qualname__}(message={self.__message!r}, "
+                f"condition={self.__condition}, args={self.__args}, "
+                f"colored={self.__color})>")
 
     def __len__(self) -> int:
         return len(self.__message)
 
     def __await__(self) -> Generator:
-        animation_sequence = "|/-\\"
+        spinner_sequence = "|/-\\"
 
         while self.__condition(*self.__args):
-            for char in animation_sequence:
+            for char in spinner_sequence:
                 spinner = f"[{Fore.CYAN}{char}{Fore.RESET}]" if self.colored else f"[{char}]"
 
                 print(f"\r{spinner} {self.__message}", end="", flush=True)
@@ -131,7 +125,7 @@ class AsyncTextAnimation(AbstractTextAnimation):
                 yield from asyncio.sleep(0.1).__await__()
 
         # Removes the loading message
-        print("\r" + (" " * (len(self) + 10)), end="\r")
+        print("\r" + (" "*(len(self) + 10)), end="\r")
 
     @property
     def message(self) -> str:
@@ -156,15 +150,7 @@ class AsyncTextAnimation(AbstractTextAnimation):
         ----------
         message : str
             The message to set for the animation object
-
-        Raises
-        ------
-        TypeError
-            Parameter is not type 'str'
         """
-
-        if not isinstance(message, str):
-            raise TypeError(f"Expected type 'str' instead of type '{type(message).__qualname__}'")
 
         self.__message = message
 
@@ -176,15 +162,7 @@ class AsyncTextAnimation(AbstractTextAnimation):
         condition : Callable[..., bool]
             A callable object representing the loop condition. As
             soon as it returns `False`, the animation will stop
-
-        Raises
-        ------
-        TypeError
-            Parameter is not callable
         """
-
-        if not callable(condition):
-            raise TypeError(f"Expected a callable object instead of '{type(condition).__qualname__}'")
 
         self.__condition = condition
 

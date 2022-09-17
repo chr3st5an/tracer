@@ -24,8 +24,18 @@ SOFTWARE.
 
 from __future__ import annotations
 
-from typing import Any, AsyncGenerator, Callable, Dict, Generator, Tuple, Optional
+__all__ = ("WebsitePool",)
+
 from abc import ABC, abstractmethod, abstractproperty
+from typing import (
+    Any,
+    AsyncGenerator,
+    Callable,
+    Dict,
+    Generator,
+    Tuple,
+    Optional
+)
 import asyncio
 import copy
 
@@ -33,9 +43,6 @@ from aiohttp import ClientSession
 
 from .website import Website
 from .result import Result
-
-
-__all__ = ("WebsitePool", )
 
 
 class AbstractWebsitePool(ABC):
@@ -70,15 +77,15 @@ class WebsitePool(AbstractWebsitePool):
 
     Methods
     -------
-    obj.set_name(str) -> None
+    obj.set_name(str)
         Sets the name of the pool
-    obj.set_username(str) -> None
+    obj.set_username(str)
         Sets the username for every website inside the pool
-    obj.add(tracer.Website) -> None
+    obj.add(tracer.Website)
         Adds a website to the pool
-    obj.remove(Callable[[tracer.Website], bool]) -> None
+    obj.remove(Callable[[tracer.Website], bool])
         Removes websites from the pool
-    obj.start_requests(aiohttp.ClientSession, Optional[float]) -> AsyncGenerator[Result, None]
+    obj.start_requests(aiohttp.ClientSession, Optional[float])
         Calls `send_request` of every site inside of the pool
 
     Supported Operations
@@ -86,9 +93,11 @@ class WebsitePool(AbstractWebsitePool):
     `str(obj)`
         Returns the str representation of the pool
     `len(obj)`
-        Returns the amount of websites that are currently in the pool
+        Returns the amount of websites that are currently in
+        the pool
     `iter(obj)`
-        Returns a generator containing all websites that are currently in the pool
+        Returns a generator containing all websites that are
+        currently in the pool
     `x in obj`
         Checks if a website is currently in the pool
     `copy.copy(obj)`
@@ -111,8 +120,13 @@ class WebsitePool(AbstractWebsitePool):
     chr3st5an
     """
 
-    def __init__(self, *sites: Website, name: Optional[str] = None, allow_duplicates: bool = False) -> None:
-        """Initializes a WebsitePool
+    def __init__(
+        self,
+        *sites: Website,
+        name: Optional[str] = None,
+        allow_duplicates: bool = False
+    ):
+        """Initialize a WebsitePool
 
         Parameters
         ----------
@@ -123,7 +137,7 @@ class WebsitePool(AbstractWebsitePool):
             or don't, by default False
         """
 
-        self.__sites            = list()
+        self.__sites = list()
         self.__allow_duplicates = allow_duplicates
 
         self.set_name(name)
@@ -132,7 +146,8 @@ class WebsitePool(AbstractWebsitePool):
             self.add(site)
 
     def __str__(self) -> str:
-        return f"<{self.__class__.__qualname__}(name=\"{self.__name}\", websites={len(self)})>"
+        return (f"<{self.__class__.__qualname__}(name={self.__name!r}, "
+                f"websites={len(self)})>")
 
     def __len__(self) -> int:
         return len(self.__sites)
@@ -173,9 +188,9 @@ class WebsitePool(AbstractWebsitePool):
 
     @property
     def is_empty(self) -> bool:
-        return not bool(self)
+        return not self
 
-    def set_name(self, name: Optional[str]) -> None:
+    def set_name(self, name: str) -> None:
         """Sets the name for the pool
 
         Parameters
@@ -212,7 +227,7 @@ class WebsitePool(AbstractWebsitePool):
 
         self.__sites.append(website)
 
-    def extend(self, pool, _deepcopy: bool = True) -> None:
+    def extend(self, pool: WebsitePool, _deepcopy: bool = True) -> None:
         """Adds sites from another pool to the own pool
 
         Parameters
@@ -279,7 +294,11 @@ class WebsitePool(AbstractWebsitePool):
 
         return result[0] if result else None
 
-    async def start_requests(self, session: ClientSession, timeout: Optional[float] = None) -> AsyncGenerator[Result, None]:
+    async def start_requests(
+        self,
+        session: ClientSession,
+        timeout: Optional[float] = None
+    ) -> AsyncGenerator[Result, None]:
         """Prepares and handles all requests
 
         Calls `send_request` of every tracer.Website object in the pool and
@@ -304,24 +323,15 @@ class WebsitePool(AbstractWebsitePool):
         ------
         tracer.Result
             The representation of the result of a request
-
-        Example
-        -------
-        >>> results = pool.start_requests(...)
-
-        >>> async for result in results:
-
-        >>>    print(result.url)
         """
 
-        results  = asyncio.Queue()
-        requests = [site.send_request(session, timeout, callback=results.put) for site in self]
-
-        requests = asyncio.gather(*requests)
+        results = asyncio.Queue()
+        requests = asyncio.gather(*[
+            site.send_request(session, timeout, cb=results.put) for site in self
+        ])
 
         while not (results.empty() and requests.done()):
             try:
                 yield await asyncio.wait_for(results.get(), timeout=0.25)
             except asyncio.TimeoutError:
-                """Force recheck of the loop condition
-                """
+                """Force recheck of the loop condition"""

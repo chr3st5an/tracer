@@ -26,20 +26,30 @@ import secrets
 import asyncio
 import os
 
-from tracer import WebsitePool, Website, POOL, USER_AGENT
 from aiohttp import ClientSession, DummyCookieJar, web
 from aiohttp.web import Request, RouteTableDef
 from jinja2 import FileSystemLoader
 import aiohttp_jinja2
 
+from tracer import (
+    load_website_data,
+    load_user_agent,
+    WebsitePool,
+    Website,
+)
+
 
 os.chdir(os.path.realpath(os.path.dirname(__file__)))
 
-app     = web.Application()
+app = web.Application()
 cookies = {}
-routes  = RouteTableDef()
+routes = RouteTableDef()
 
-aiohttp_jinja2.setup(app, enable_async=True, loader=FileSystemLoader("./templates"))
+aiohttp_jinja2.setup(
+    app=app,
+    enable_async=True,
+    loader=FileSystemLoader("./templates")
+)
 
 
 @routes.get("/")
@@ -53,7 +63,7 @@ async def index(request: Request):
         context={
             "host": request.host,
             "scheme": request.scheme,
-            "pool": POOL
+            "pool": load_website_data()
         }
     )
 
@@ -67,18 +77,22 @@ async def start_search(request: Request):
     in order to retrieve the results of the search.
     """
 
-    username  = (await request.post()).get("username", "")
+    username = (await request.post()).get("username", "")
     search_id = secrets.token_urlsafe(20)
-    queue     = asyncio.Queue()
-    response  = web.Response()
+    queue = asyncio.Queue()
+
+    response = web.Response()
     response.set_cookie("search_id", search_id, max_age=300)
 
     cookies[search_id] = [queue, False]
 
     # Spawn background task
-    asyncio.create_task(start_requests(username, queue, cookies[search_id]))
+    asyncio.create_task(
+        start_requests(username, queue, cookies[search_id])
+    )
 
     return response
+
 
 @routes.get("/api/start_search")
 async def get_results(request: Request):
@@ -108,7 +122,11 @@ async def get_results(request: Request):
                 return response
 
 
-async def start_requests(username: str, queue: asyncio.Queue, cookie: list) -> None:
+async def start_requests(
+    username: str,
+    queue: asyncio.Queue,
+    cookie: list
+) -> None:
     """Send the necessary requests
 
     Put the incoming responses into the given queue. This
@@ -129,24 +147,30 @@ async def start_requests(username: str, queue: asyncio.Queue, cookie: list) -> N
         the second element to `True`
     """
 
-    headers    = {"User-Agent": secrets.choice(USER_AGENT)}
+    headers = {"User-Agent": load_user_agent()}
     cookie_jar = DummyCookieJar()
 
     async with ClientSession(headers=headers, cookie_jar=cookie_jar) as session:
-        pool = WebsitePool(*map(Website.from_dict, POOL))
+        pool = WebsitePool(*[
+            Website.from_dict(data) for data in load_website_data()
+        ])
         pool.set_username(username)
 
         requests = pool.start_requests(session)
 
         async for response in requests:
-            await queue.put([response.successfully, response.url, response.ms])
+            await queue.put([
+                response.successfully,
+                response.url,
+                response.ms
+            ])
 
         # Finished
         cookie[1] = True
 
 
 @routes.get("/favicon.ico")
-async def icon(request: Request):
+async def icon(request: Request) -> web.FileResponse:
     return web.FileResponse(path="./static/assets/favicon.ico")
 
 

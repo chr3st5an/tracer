@@ -22,11 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+__all__ = ("Result",)
+
 from typing import Optional
 from colorama import Fore
-
-
-__all__ = ("Result", )
 
 
 class Result(object):
@@ -85,11 +84,18 @@ class Result(object):
     """
 
     __slots__ = (
-        "__website", "__status_code", "__successfully", "__delay",
-        "__host", "__url", "__timeout", "__error"
+        "__website",
+        "__status_code",
+        "__successfully",
+        "__delay",
+        "__host",
+        "__url",
+        "__timeout",
+        "__error",
     )
 
-    def __init__(self,
+    def __init__(
+        self,
         website,
         status_code: int,
         successfully: bool,
@@ -98,7 +104,7 @@ class Result(object):
         url: str,
         timeout: bool = False,
         error: Optional[Exception] = None
-    ) -> None:
+    ):
         """Represents the result of a request
 
         Parameters
@@ -123,18 +129,19 @@ class Result(object):
             Any exception that might have occurred, by default None
         """
 
-        self.__website      = website
-        self.__status_code  = status_code
+        self.__website = website
+        self.__status_code = status_code
         self.__successfully = successfully
-        self.__delay        = round(delay, 3)
-        self.__host         = host
-        self.__url          = url
-        self.__timeout      = timeout
-        self.__error        = error
+        self.__delay = round(delay, 3)
+        self.__host = host
+        self.__url = url
+        self.__timeout = timeout
+        self.__error = error
 
     def __str__(self) -> str:
-        return f"<{self.__class__.__qualname__}(user_exists={self.user_exists}, delay={self.delay}, " \
-            f"timeout={self.timeout}, error={bool(self.error)}>"
+        return (f"<{self.__class__.__qualname__}("
+                f"user_exists={self.user_exists}, delay={self.delay}, "
+                f"timeout={self.timeout}, error={bool(self.error)})>")
 
     def __bool__(self) -> bool:
         return self.__successfully
@@ -153,8 +160,8 @@ class Result(object):
 
     @property
     def user_exists(self) -> bool:
-        """Alias for `result.successfully`
-        """
+        """Alias for `result.successfully`"""
+
         return self.successfully
 
     @property
@@ -163,8 +170,8 @@ class Result(object):
 
     @property
     def ms(self) -> float:
-        """Alias for `result.delay`
-        """
+        """Alias for `result.delay`"""
+
         return self.delay
 
     @property

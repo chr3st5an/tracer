@@ -22,12 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from __future__ import annotations
+
+__all__ = ("Category",)
+
 from abc import ABC, abstractproperty
 from typing import Any, Dict, List
 from copy import deepcopy
-
-
-__all__ = ("Category", )
 
 
 class AbstractCategory(ABC):
@@ -78,21 +79,21 @@ class Category(AbstractCategory):
     """
 
     SOCIALMEDIA = 1
-    XXX         = 2
-    BLOG        = 3
-    ART         = 4
+    XXX = 2
+    BLOG = 3
+    ART = 4
     PROGRAMMING = 5
-    VIDEO       = 6
-    MESSAGING   = 7
-    DATING      = 8
-    MUSIC       = 9
-    SPORT       = 10
-    MEMES       = 11
-    OFFICE      = 12
-    NEWS        = 13
-    GAMES       = 14
-    LINKS       = 15
-    OTHER       = 16
+    VIDEO = 6
+    MESSAGING = 7
+    DATING = 8
+    MUSIC = 9
+    SPORT = 10
+    MEMES = 11
+    OFFICE = 12
+    NEWS = 13
+    GAMES = 14
+    LINKS = 15
+    OTHER = 16
 
     @classmethod
     def to_number(cls, category: str) -> int:
@@ -125,11 +126,14 @@ class Category(AbstractCategory):
         -------
         str
             The corresponding str representation of the number.
-            "UNKNOWN" if there is no corresponding representation.
+            "UNKNOWN" if there is no corresponding
+            representation.
         """
 
         try:
-            return [key for key, val in cls.__dict__.items() if val == number][0]
+            return [
+                key for key, val in cls.__dict__.items() if val == number
+            ][0]
         except IndexError:
             return "UNKNOWN"
 
@@ -146,7 +150,11 @@ class Category(AbstractCategory):
 
         return [attr for attr in dir(cls) if attr.isupper()]
 
-    def __init__(self, website, category_number: int):
+    def __init__(
+        self,
+        website,
+        category_number: int
+    ):
         """Initializes a category
 
         Parameters
@@ -167,7 +175,7 @@ class Category(AbstractCategory):
         """
 
         self.__website = website
-        self.__number  = category_number
+        self.__number = category_number
 
     def __str__(self) -> str:
         return f"<{self.__class__.__qualname__}[{self.as_str}]>"
@@ -181,13 +189,13 @@ class Category(AbstractCategory):
         except Exception:
             return False
 
-    def __copy__(self):
+    def __copy__(self) -> Category:
         category = self.__class__.__new__(self.__class__)
         category.__dict__.update(self.__dict__)
 
         return category
 
-    def __deepcopy__(self, memo: Dict[int, Any]):
+    def __deepcopy__(self, memo: Dict[int, Any]) -> Category:
         category = self.__class__.__new__(self.__class__)
 
         memo[id(self)] = category

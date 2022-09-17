@@ -9,6 +9,8 @@ Arguments can be provided through the CLI or through the config (.conf) file.
 Dependencies: requirements.txt
 """
 
+__all__ = ("Tracer",)
+
 from typing import Dict, List, Optional, Union
 from threading import Thread
 from time import monotonic
@@ -24,19 +26,13 @@ from aiohttp import ClientSession
 from aiohttp.web import run_app
 from colorama import Fore
 import aiohttp
-import aiofiles
 
-try:
-    from src import *
-except ModuleNotFoundError:
-    from .src import *
+from models import *
+from loader import *
 
 
-__all__ = ("Tracer", )
-
-
-CONFIG = "./settings.conf"
-MY_IP  = "https://api.myip.com"
+CONFIG = "../settings.conf"
+MY_IP = "https://api.myip.com"
 
 
 class Tracer(object):
@@ -55,7 +51,8 @@ class Tracer(object):
         which executes the `run` coro
         """
 
-        os.chdir(os.path.dirname(os.path.realpath(__file__)))
+        # Changing dir so that relative paths make sense
+        os.chdir(os.path.dirname(__file__))
 
         # Parse the configs from the conf file and
         # update these with the arguments given by the CLI
@@ -77,18 +74,24 @@ class Tracer(object):
         finally:
             loop.stop()
 
-    def __init__(self,
+    def __init__(
+        self,
         username: str,
-        data: List[Dict[str, str]] = POOL,
-        user_agent: str = USER_AGENT,
-        **kwargs
-    ) -> None:
+        data: Optional[List[Dict[str, str]]] = None,
+        user_agent: Optional[str] = None,
+        **kwargs,
+    ):
+        if data is None:
+            data = load_website_data()
 
-        self.username   = username
-        self.kwargs     = dict(kwargs)
+        if user_agent is None:
+            user_agent = load_user_agent()
+
+        self.username = username
+        self.kwargs = dict(kwargs)
         self.user_agent = user_agent
-        self.pool       = WebsitePool(*map(Website.from_dict, data), name="TracerPool")
-        self.verbose    = kwargs.get("verbose", False)
+        self.verbose = kwargs.get("verbose", False)
+        self.pool = WebsitePool(*[Website.from_dict(data_) for data_ in data])
 
         self.pool.set_username(self.username)
 
@@ -103,46 +106,56 @@ class Tracer(object):
         http.cookies._is_legal_key = lambda _: True
 
     def __str__(self) -> str:
-        return f"<{self.__class__.__qualname__}(username=\"{self.username}\", kwargs={self.kwargs}, " \
-            f"headers={self.headers}, pool={self.pool})>"
+        return (
+            f"<{self.__class__.__qualname__}(username={self.username!r}, "
+            f"kwargs={self.kwargs}, headers={self.headers}, "
+            f"pool={self.pool})>"
+        )
 
     def __filter_sites(self) -> None:
-        """Filter the list of sites based on the given arguments
-        """
+        """Filter the list of sites based on the given arguments"""
 
-        include: List[str] = self.kwargs.get('only', []) + self.kwargs.get('only_category', [])
-        exclude: List[str] = self.kwargs.get('exclude', []) + self.kwargs.get('exclude_category', [])
+        include: List[str] = self.kwargs.get("only", []) + self.kwargs.get(
+            "only_category", []
+        )
+
+        exclude: List[str] = self.kwargs.get("exclude", []) + self.kwargs.get(
+            "exclude_category", []
+        )
 
         if not (include or exclude):
             return None
 
-        include = [string.lower() for string in include]
-        exclude = [string.lower() for string in exclude]
-
         if exclude:
-            self.pool.remove(lambda w: (w.domain in exclude) or (w.category.as_str in exclude))
+            self.pool.remove(
+                lambda w: (w.domain in exclude) or (w.category.as_str in exclude)
+            )
 
         if include:
-            self.pool.remove(lambda w: not ((w.domain in include) or (w.category.as_str in include)))
+            self.pool.remove(
+                lambda w: not ((w.domain in include) or (w.category.as_str in include))
+            )
 
     async def run(self) -> None:
-        """Run the program
-        """
+        """Run the program"""
 
         if self.kwargs.get("print_logo", True):
-            print(f"\n{Fore.CYAN}{LOGO}{Fore.RESET}\n")
+            print(f"\n{Fore.CYAN}{load_logo()}{Fore.RESET}\n")
 
         cookie_jar = aiohttp.DummyCookieJar()
-        headers    = {"User-Agent": self.user_agent}
+        headers = {"User-Agent": self.user_agent}
 
         async with ClientSession(headers=headers, cookie_jar=cookie_jar) as session:
             if self.kwargs.get("ip_check"):
-                await self.retrieve_ip(session, timeout=self.kwargs.get("ip_timeout"))
+                await self.retrieve_ip(
+                    session=session, timeout=self.kwargs.get("ip_timeout")
+                )
 
-            print(f"[{Fore.CYAN}*{Fore.RESET}] Checking {Fore.CYAN}{self.username}{Fore.RESET} on {len(self.pool)} sites:\n")
+            print(f"[{Fore.CYAN}*{Fore.RESET}] Checking {Fore.CYAN}{self.username}"
+                  f"{Fore.RESET} on {len(self.pool)} sites:\n")
 
-            start    = monotonic()
-            counter  = 0
+            start = monotonic()
+            counter = 0
             requests = self.pool.start_requests(session, self.kwargs.get("timeout"))
 
             async for response in requests:
@@ -160,21 +173,18 @@ class Tracer(object):
                 print(f"{Fore.GREEN}[+]{Fore.RESET} {message}")
 
                 if self.kwargs.get("browse"):
-                    Thread(target=webbrowser.open, args=(response.url, )).start()
+                    Thread(target=webbrowser.open, args=(response.url,)).start()
 
                 counter += 1
 
-        print(
-            f"\n[{Fore.CYAN}={Fore.RESET}] Found {Fore.CYAN}{counter}{Fore.RESET} match(es) "
-            f"in {Fore.CYAN}{round(monotonic() - start, 2)}s{Fore.RESET}"
-        )
+        print(f"\n[{Fore.CYAN}={Fore.RESET}] Found {Fore.CYAN}{counter}"
+              f"{Fore.RESET} match(es) in {Fore.CYAN}{monotonic() - start:.2f}"
+              f"s{Fore.RESET}")
 
-        await asyncio.gather(
-            self.write_report(self._out_dir),
-            self.draw_graph(self._out_dir)
-        )
+        self.write_report(self._out_dir)
+        self.draw_graph(self._out_dir)
 
-    async def write_report(self, out_dir: Union[str, Path]) -> None:
+    def write_report(self, out_dir: Union[str, Path]) -> None:
         """Create and write a report file which contains the results
 
         Parameters
@@ -190,13 +200,15 @@ class Tracer(object):
         name = f"{out_dir}result.txt"
         mode = "w" if os.path.exists(name) else "x"
 
-        async with aiofiles.open(name, mode) as file:
-            await file.write(f"{LOGO}\nReport for {self.username}:\n\n")
+        with open(name, mode) as file:
+            file.write(f"{load_logo()}\nReport for {self.username}:\n\n")
 
             for result in self.pool.results:
-                await file.write(result.url + "\n")
+                file.write(result.url + "\n")
 
-    async def draw_graph(self, out_dir: Optional[Union[str, Path]]) -> None:
+        return None
+
+    def draw_graph(self, out_dir: Optional[Union[str, Path]]) -> None:
         """Visualize the results
 
         Create a HTML file containing a graph and open it
@@ -227,11 +239,9 @@ class Tracer(object):
                 color="#bd93f9",
                 shape="circle",
                 title=category.title(),
-                labelHighlightBold=True
+                labelHighlightBold=True,
             )
             net.add_edge(self.username, category.title())
-
-            await asyncio.sleep(0)
 
         for site in self.pool:
             if site.result.user_exists:
@@ -240,11 +250,9 @@ class Tracer(object):
                     color="#ff5555",
                     shape="circle",
                     title=site.url,
-                    labelHighlightBold=True
+                    labelHighlightBold=True,
                 )
                 net.add_edge(site.category.as_str.title(), site.name)
-
-            await asyncio.sleep(0)
 
         # Settings for the graph
         net.toggle_physics(True)
@@ -254,7 +262,13 @@ class Tracer(object):
         # in the default browser
         net.show(f"{out_dir}graph.html")
 
-    async def retrieve_ip(self, session: ClientSession, timeout: Optional[float] = None) -> str:
+        return None
+
+    async def retrieve_ip(
+        self,
+        session: ClientSession,
+        timeout: Optional[float] = None
+    ) -> None:
         """Retrieve the IP address and prints it
 
         Sleep for 3 seconds after the IP got retrieved.
@@ -267,9 +281,11 @@ class Tracer(object):
             Set a timeout for the request, by default None
         """
 
-        async def send_request():
+        async def send_request() -> Dict[str, str]:
+            timeout_ = aiohttp.ClientTimeout(timeout)
+
             try:
-                async with session.get(MY_IP, timeout=aiohttp.ClientTimeout(timeout)) as r:
+                async with session.get(MY_IP, timeout=timeout_) as r:
                     return json.loads(await r.text())
             except asyncio.TimeoutError:
                 return {"ip": "0.0.0.0 [TIMEOUT]"}
@@ -283,8 +299,7 @@ class Tracer(object):
         await asyncio.sleep(3)
 
     def _create_output_dir(self) -> None:
-        """Create the directory in which the results are saved
-        """
+        """Create the directory in which the results are saved"""
 
         results_dir = "../results/"
 
