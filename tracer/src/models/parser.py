@@ -156,7 +156,6 @@ class TracerParser(AbstractTracerParser):
             usage="%(prog)s [options] username",
             description="Check on which website the specified username is in use",
             epilog="A tool created by @chr3st5an",
-            exit_on_error=False
         )
 
         parser.add_argument(
