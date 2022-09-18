@@ -15,7 +15,7 @@ Tracer detects on which website a username is currently in use!
 
 </div>
 
-</br>
+<br/>
 
 ## Features
 
@@ -47,7 +47,7 @@ Tracer provides the following features:
 
 </div>
 
-</br>
+<br/>
 
 ## Built With
 
@@ -113,7 +113,7 @@ pip install -r ./requirements.txt
 
 </div>
 
-</br>
+<br/>
 
 ## Usage
 
@@ -133,7 +133,7 @@ Where `[OPTIONS]` are optional flags you can pass to Tracer to modify its behavi
 
 </div>
 
-</br>
+<br/>
 
 ## GUI
 
@@ -155,7 +155,7 @@ This will run the webapp on port 12345. Tracer should automatically open your br
 
 </div>
 
-</br>
+<br/>
 
 ## Options
 
@@ -201,7 +201,7 @@ python tracer -h
 
 </div>
 
-</br>
+<br/>
 
 ## License
 
@@ -213,4 +213,12 @@ This project is licensed under the **MIT** license. For more information check o
 
 [(Beam me up)](#tracer)
 
+</div>
+
+<br/>
+
+<div align="center">
+    <a href="https://www.buymeacoffee.com/chr3st5an" target="_blank">
+        <img src="https://cdn.buymeacoffee.com/buttons/v2/default-violet.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;"/>
+    </a>
 </div>
