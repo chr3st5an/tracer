@@ -106,7 +106,7 @@ class TracerParser(AbstractTracerParser):
 
         return kwargs
 
-    def _parse_conf_file(self) -> Dict[str, str]:
+    def _parse_conf_file(self) -> Dict[str, Any]:
         """Parses args from the config file
 
         Returns
@@ -137,7 +137,7 @@ class TracerParser(AbstractTracerParser):
             elif value.isdigit():
                 settings[setting] = float(value)
             else:
-                settings[setting] = re.findall(r"[a-zA-Z0-9\.]+", value)
+                settings[setting] = re.findall(r"[a-zA-Z0-9.]+", value)
 
         return settings
 
@@ -242,7 +242,7 @@ class TracerParser(AbstractTracerParser):
             help="start a GUI version of Tracer in your browser"
         )
 
-        args: Dict[str, Any] = {}
+        args = {}
 
         # Parses the args and filters options out that didn't were provided
         for key, value in dict(parser.parse_args()._get_kwargs()).items():

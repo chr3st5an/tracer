@@ -24,7 +24,7 @@ SOFTWARE.
 
 __all__ = ("AsyncTextAnimation",)
 
-from typing import Any, Callable, Generator, Tuple
+from typing import Any, Callable, Generator, Tuple, Optional
 from abc import ABC, abstractmethod
 import asyncio
 
@@ -104,6 +104,8 @@ class AsyncTextAnimation(AbstractTextAnimation):
 
         self.__args = args
         self.__color = bool(color)
+        self.__message = None
+        self.__condition = None
 
     def __str__(self) -> str:
         return (f"<{self.__class__.__qualname__}(message={self.__message!r}, "
@@ -128,11 +130,11 @@ class AsyncTextAnimation(AbstractTextAnimation):
         print("\r" + (" "*(len(self) + 10)), end="\r")
 
     @property
-    def message(self) -> str:
+    def message(self) -> Optional[str]:
         return self.__message
 
     @property
-    def condition(self) -> Callable[..., bool]:
+    def condition(self) -> Optional[Callable[..., bool]]:
         return self.__condition
 
     @property

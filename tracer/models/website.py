@@ -27,7 +27,7 @@ from __future__ import annotations
 __all__ = ("Website",)
 
 from typing import Any, Callable, Coroutine, Dict, Optional, Union
-from abc import ABC, abstractmethod, abstractclassmethod
+from abc import ABC, abstractmethod
 from asyncio import TimeoutError
 from time import monotonic
 from copy import deepcopy
@@ -41,8 +41,9 @@ from .result import Result
 
 
 class AbstractWebsite(ABC):
-    @abstractclassmethod
-    def from_dict(self, data):
+    @classmethod
+    @abstractmethod
+    def from_dict(cls, data):
         pass
 
     @abstractmethod

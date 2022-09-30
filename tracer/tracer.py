@@ -108,8 +108,7 @@ class Tracer(object):
     def __str__(self) -> str:
         return (
             f"<{self.__class__.__qualname__}(username={self.username!r}, "
-            f"kwargs={self.kwargs}, headers={self.headers}, "
-            f"pool={self.pool})>"
+            f"kwargs={self.kwargs}, pool={self.pool})>"
         )
 
     def __filter_sites(self) -> None:

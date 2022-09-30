@@ -26,13 +26,14 @@ from __future__ import annotations
 
 __all__ = ("Category",)
 
-from abc import ABC, abstractproperty
+from abc import ABC, abstractmethod
 from typing import Any, Dict, List
 from copy import deepcopy
 
 
 class AbstractCategory(ABC):
-    @abstractproperty
+    @property
+    @abstractmethod
     def website(self):
         pass
 

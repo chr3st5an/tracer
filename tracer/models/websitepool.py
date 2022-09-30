@@ -26,7 +26,7 @@ from __future__ import annotations
 
 __all__ = ("WebsitePool",)
 
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 from typing import (
     Any,
     AsyncGenerator,
@@ -46,7 +46,8 @@ from .result import Result
 
 
 class AbstractWebsitePool(ABC):
-    @abstractproperty
+    @property
+    @abstractmethod
     def sites(self):
         pass
 
@@ -105,16 +106,6 @@ class WebsitePool(AbstractWebsitePool):
     `copy.deepcopy(obj)`
         Returns a deepcopy of the pool
 
-    Example
-    -------
-    >>> pool = WebsitePool(*my_websites, name="MyPool")
-
-    >>> pool.add(website)
-
-    >>> async for result in pool.start_requests(session, timeout=1):
-
-    >>>     print(result)
-
     Author
     ------
     chr3st5an
@@ -139,6 +130,7 @@ class WebsitePool(AbstractWebsitePool):
 
         self.__sites = list()
         self.__allow_duplicates = allow_duplicates
+        self.__name = None
 
         self.set_name(name)
 
