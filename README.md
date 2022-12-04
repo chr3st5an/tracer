@@ -11,7 +11,7 @@
 
 Tracer detects on which website a username is currently in use!
 
-**[Official Repository](https://github.com/chr3st5an/tracer)** · **[Online Search](https://tracer-project.online/)** · **[Report Bug](https://github.com/chr3st5an/tracer/issues)**
+**[Official Repository](https://github.com/chr3st5an/tracer)** · **[Report Bug](https://github.com/chr3st5an/tracer/issues)**
 
 </div>
 
