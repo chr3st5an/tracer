@@ -1,33 +1,35 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[project]
-name = "Tracer"
-readme = "README.md"
-license = {text = "MIT"}
+[tool.poetry]
+name = "tracer"
+version = "1.0.2"
 description = "A simple username checker for social media websites"
-authors = [
-    {name = "chr3st5an"}
-]
-keywords = ["username", "username checker", "osint"]
-requires-python = ">=3.7"
-classifiers = ["Programming Language :: Python :: 3"]
-dependencies = [
-    "wheel>=0.34.2",
-    "aiohttp>=3.8.3",
-    "colorama>=0.4.3",
-    "asyncio>=3.4.3",
-    "aiofiles>=0.8.0",
-    "pyvis>=0.3.0",
-    "aiohttp_jinja2>=1.5",
-    "jinja2>=3.1.1"
-]
-dynamic = ["version"]
+authors = ["Christian <64144555+chr3st5an@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
 
-[project.urls]
-repository = "https://github.com/chr3st5an/tracer"
-homepage = "https://tracer-project.online/"
+[tool.poetry.dependencies]
+python = "^3.8.1"
+aiohttp = "^3.8.4"
+colorama = "^0.4.6"
+aiofiles = "^23.1.0"
+pyvis = "^0.3.1"
+aiohttp-jinja2 = "^1.5.1"
+Jinja2 = "^3.1.2"
 
-[tool.setuptools.dynamic]
-version = {attr = "tracer.__version__"}
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.0.1"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+
+[tool.isort]
+combine_star = true
+combine_as_imports = true
+from_first = true
+lines_after_imports = 2
+length_sort = true
+line_length = 120
+skip_gitignore = true
+use_parentheses = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

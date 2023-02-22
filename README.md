@@ -1,7 +1,7 @@
 <div align="center">
 
 [![Maintainer](https://img.shields.io/badge/Maintainer-chr3st5an-purple?style=for-the-badge)](https://github.com/chr3st5an)
-[![Python](https://img.shields.io/badge/Python->=3.7-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/)
+[![Python](https://img.shields.io/badge/Python->=3.8.1-blue?style=for-the-badge&logo=python)](https://www.python.org/downloads/)
 [![Category](https://img.shields.io/badge/Category-OSINT-brightgreen?style=for-the-badge)](https://en.wikipedia.org/wiki/Open-source_intelligence)
 [![License](https://img.shields.io/badge/License-MIT-brightgreen?style=for-the-badge)](https://github.com/chr3st5an/tracer/blob/main/LICENSE)
 ![Version](https://img.shields.io/badge/Version-1.0.2-brightgreen?style=for-the-badge)
